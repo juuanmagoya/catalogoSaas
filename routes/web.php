@@ -1,8 +1,6 @@
 <?php
-
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
-use App\Support\TenantContext;
-use App\Domains\Catalog\Category\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,34 +14,29 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Rutas del Tenant (Por URL)
+| Rutas del Tenant
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('t/{subdomain}')
-    ->middleware(['tenant'])
+Route::middleware(['tenant'])
+    ->prefix('t/{subdomain}/admin')
+    ->as('tenant.admin.')
     ->group(function () {
 
-        Route::get('/', function () {
+        // LISTAR
+        Route::get('categories', [CategoryController::class, 'index'])
+            ->name('categories.index');
 
-            $tenant = TenantContext::getTenant();
+        // CREAR
+        Route::post('categories', [CategoryController::class, 'store'])
+            ->name('categories.store');
 
-            $categories = Category::all();
+        // ACTUALIZAR
+        Route::put('categories/{categoryId}', [CategoryController::class, 'update'])
+            ->name('categories.update');
 
-            $output = "Tenant activo: " . $tenant->name
-                . " (Slug: " . $tenant->subdomain . ")<br><br>";
-
-            $output .= "<strong>Categorías:</strong><br>";
-
-            if ($categories->isEmpty()) {
-                $output .= "No hay categorías registradas.";
-            } else {
-                foreach ($categories as $category) {
-                    $output .= "- " . $category->name . " (slug: " . $category->slug . ")<br>";
-                }
-            }
-
-            return $output;
-        });
+        // ELIMINAR
+        Route::delete('categories/{categoryId}', [CategoryController::class, 'destroy'])
+            ->name('categories.destroy');
 
     });
