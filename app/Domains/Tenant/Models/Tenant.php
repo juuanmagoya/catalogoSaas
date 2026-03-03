@@ -5,6 +5,7 @@ namespace App\Domains\Tenant\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Domains\Catalog\Category\Models\Category;
+use App\Models\User; 
 
 class Tenant extends Model
 {
@@ -32,7 +33,7 @@ class Tenant extends Model
 
     public function users()
     {
-        return $this->hasMany(\App\Models\User::class);
+        return $this->hasMany(User::class);
     }
     public function categories()
     {

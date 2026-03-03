@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Domains\Catalog\Category\Models\Category;
 use App\Domains\Catalog\Category\Services\CategoryService;
 use App\Support\TenantContext;
+use App\Domains\Catalog\Product\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -18,15 +19,20 @@ class CategoryController extends Controller
     }
 
     public function index()
-    {
-        $tenant = TenantContext::getTenant();
+{
+    $tenant = TenantContext::getTenant();
 
-        $categories = Category::where('tenant_id', $tenant->id)
-            ->latest()
-            ->get();
+    $categories = Category::where('tenant_id', $tenant->id)
+        ->latest()
+        ->get();
 
-        return view('welcome', compact('categories'));
-    }
+    $products = Product::where('tenant_id', $tenant->id)
+        ->with('category')
+        ->latest()
+        ->get();
+
+    return view('welcome', compact('categories', 'products'));
+}
 
     public function store(Request $request)
     {

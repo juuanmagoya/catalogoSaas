@@ -1,42 +1,125 @@
 <?php
-use App\Http\Controllers\Admin\CategoryController;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
-| Landing Principal (SaaS)
+| Landing Pública SaaS
 |--------------------------------------------------------------------------
 */
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('landing');
+
 
 /*
 |--------------------------------------------------------------------------
-| Rutas del Tenant
+| Panel Admin Global SaaS
+| (Admin controla tenants y planes)
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['tenant'])
+Route::middleware(['auth', 'admin.global'])
+    ->prefix('admin')
+    ->as('admin.')
+    ->group(function () {
+
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
+
+        // Aquí luego agregamos:
+        // tenants
+        // planes
+    });
+
+
+/*
+|--------------------------------------------------------------------------
+| Panel Tenant (Owner del negocio)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['tenant', 'auth', 'tenant.user'])
     ->prefix('t/{subdomain}/admin')
     ->as('tenant.admin.')
     ->group(function () {
 
-        // LISTAR
+        /*
+        |--------------------------------------------------------------------------
+        | Dashboard Owner
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/', function () {
+            return view('tenant.admin.dashboard');
+        })->name('dashboard');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Categories
+        |--------------------------------------------------------------------------
+        */
+
         Route::get('categories', [CategoryController::class, 'index'])
             ->name('categories.index');
 
-        // CREAR
         Route::post('categories', [CategoryController::class, 'store'])
             ->name('categories.store');
 
-        // ACTUALIZAR
         Route::put('categories/{categoryId}', [CategoryController::class, 'update'])
             ->name('categories.update');
 
-        // ELIMINAR
         Route::delete('categories/{categoryId}', [CategoryController::class, 'destroy'])
             ->name('categories.destroy');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Products
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('products', [ProductController::class, 'index'])
+            ->name('products.index');
+
+        Route::post('products', [ProductController::class, 'store'])
+            ->name('products.store');
+
+        Route::put('products/{productId}', [ProductController::class, 'update'])
+            ->name('products.update');
+
+        Route::delete('products/{productId}', [ProductController::class, 'destroy'])
+            ->name('products.destroy');
     });
+
+
+/*
+|--------------------------------------------------------------------------
+| Perfil (Opcional)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Rutas de autenticación Breeze
+|--------------------------------------------------------------------------
+*/
+
+require __DIR__.'/auth.php';
