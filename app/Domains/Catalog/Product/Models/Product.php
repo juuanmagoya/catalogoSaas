@@ -1,28 +1,31 @@
 <?php
 
-namespace App\Domains\Catalog\Category\Models;
+namespace App\Domains\Catalog\Product\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Domains\Shared\Concerns\BelongsToTenant;
 use App\Domains\Tenant\Models\Tenant;
-use App\Domains\Catalog\Product\Models\Product;
+use App\Domains\Catalog\Category\Models\Category;
 
-class Category extends Model
+class Product extends Model
 {
     use HasFactory, BelongsToTenant;
 
     protected $fillable = [
         'tenant_id',
+        'category_id',
         'name',
         'slug',
         'description',
+        'price',
         'image_path',
-        'is_active',
+        'is_available',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'price' => 'decimal:2',
+        'is_available' => 'boolean',
     ];
 
     /*
@@ -35,8 +38,9 @@ class Category extends Model
     {
         return $this->belongsTo(Tenant::class);
     }
-    public function products()
+
+    public function category()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Category::class);
     }
 }
