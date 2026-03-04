@@ -53,4 +53,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Tenant::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isOwner()
+    {
+        return $this->role === 'owner';
+    }
 }
