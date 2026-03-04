@@ -45,7 +45,7 @@ Route::middleware(['auth', 'admin.global'])
 */
 
 Route::middleware(['tenant', 'auth', 'tenant.user'])
-    ->prefix('t/{subdomain}/admin')
+    ->prefix('/{subdomain}/admin')
     ->as('tenant.admin.')
     ->group(function () {
 

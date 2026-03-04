@@ -33,6 +33,9 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
+                        Imagen
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
                         Nombre
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
@@ -50,6 +53,17 @@
             <tbody class="bg-white divide-y divide-gray-100">
                 @forelse($categories as $category)
                     <tr class="hover:bg-gray-50 transition">
+                        <td class="px-6 py-4">
+                            @if($category->image_path)
+                                <img src="{{ asset('storage/' . $category->image_path) }}"
+                                    alt="{{ $category->name }}"
+                                    class="w-14 h-14 object-cover rounded-lg border border-gray-200 shadow-sm">
+                            @else
+                                <div class="w-14 h-14 flex items-center justify-center bg-gray-100 rounded-lg border border-gray-200 text-gray-400 text-xs">
+                                    Sin imagen
+                                </div>
+                            @endif
+                        </td>
                         <td class="px-6 py-4">
                             <div class="font-medium text-gray-800">
                                 {{ $category->name }}

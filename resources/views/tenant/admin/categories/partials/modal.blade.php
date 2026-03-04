@@ -16,7 +16,7 @@
         </div>
 
         {{-- Form --}}
-        <form id="categoryForm" method="POST">
+        <form id="categoryForm" method="POST" enctype="multipart/form-data">
             @csrf
             <div id="methodField"></div>
 
@@ -85,6 +85,18 @@
                         Inactiva
                     </span> -->
                 </div>
+            </div>
+
+            {{-- Imagen --}}
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Imagen
+                </label>
+
+                <input type="file"
+                    name="image"
+                    accept="image/*"
+                    class="w-full text-sm text-gray-700">
             </div>
 
             {{-- Buttons --}}

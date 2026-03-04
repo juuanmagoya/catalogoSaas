@@ -43,7 +43,7 @@ class AuthenticatedSessionController extends Controller
                 abort(403, 'Owner sin tenant asignado.');
             }
 
-            return redirect("/t/{$tenant->subdomain}/admin");
+            return redirect("/{$tenant->subdomain}/admin");
         }
 
         abort(403);

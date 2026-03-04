@@ -33,14 +33,18 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-        'name'        => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'is_active'   => 'required|boolean',
-    ]);
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'is_active'   => 'required|boolean',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
-    $validated['is_active'] = $request->boolean('is_active');
+        $validated['is_active'] = $request->boolean('is_active');
 
-        $this->service->create($validated);
+        $this->service->create(
+            $validated,
+            $request->file('image')
+        );
 
         return redirect()->back()
             ->with('success', 'Categoría creada correctamente');
@@ -61,10 +65,16 @@ class CategoryController extends Controller
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'is_active'   => 'required|in:0,1',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
+        $validated['is_active'] = $request->boolean('is_active');
 
-        $this->service->update($category, $validated);
+        $this->service->update(
+            $category,
+            $validated,
+            $request->file('image')
+        );
 
         return redirect()->back()
             ->with('success', 'Categoría actualizada correctamente');
