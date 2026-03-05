@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Tenant\PublicMenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,7 +100,7 @@ Route::middleware(['tenant', 'auth', 'tenant.user'])
 
 /*
 |--------------------------------------------------------------------------
-| Perfil (Opcional)
+| Perfil Usuario
 |--------------------------------------------------------------------------
 */
 
@@ -118,8 +119,24 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Rutas de autenticación Breeze
+| Rutas de Autenticación Breeze
 |--------------------------------------------------------------------------
 */
 
 require __DIR__.'/auth.php';
+
+
+/*
+|--------------------------------------------------------------------------
+| Catálogo Público del Tenant
+| ⚠️ SIEMPRE AL FINAL PARA NO INTERFERIR CON LOGIN
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['tenant'])
+    ->prefix('/{subdomain}')
+    ->group(function () {
+
+        Route::get('/', [PublicMenuController::class, 'index'])
+            ->name('tenant.public.menu');
+    });
