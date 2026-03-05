@@ -20,16 +20,11 @@ class ProductController extends Controller
 
     public function index()
     {
-        $tenant = TenantContext::getTenant();
+        // 🔥 Toda la lógica vive en el Service
+        $products = $this->service->getAllForCurrentTenant();
+        $categories = $this->service->getCategoriesForCurrentTenant();
 
-        $products = Product::where('tenant_id', $tenant->id)
-            ->with('category')
-            ->latest()
-            ->get();
-
-        $categories = Category::where('tenant_id', $tenant->id)->get();
-
-        return view('welcome', compact('products', 'categories'));
+        return view('tenant.admin.products.index', compact('products', 'categories'));
     }
 
     public function store(Request $request)
@@ -37,21 +32,35 @@ class ProductController extends Controller
         $tenant = TenantContext::getTenant();
 
         $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'nullable|numeric|min:0',
-            'is_available' => 'boolean',
+            'category_id' => [
+                'required',
+                function ($attribute, $value, $fail) use ($tenant) {
+                    $exists = Category::where('tenant_id', $tenant->id)
+                        ->where('id', $value)
+                        ->exists();
+
+                    if (!$exists) {
+                        $fail('La categoría no es válida.');
+                    }
+                }
+            ],
+            'name'         => 'required|string|max:255',
+            'description'  => 'nullable|string',
+            'price'        => 'nullable|numeric|min:0',
+            'is_available' => 'required|boolean',
+            'image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        // Seguridad extra multi-tenant:
-        Category::where('tenant_id', $tenant->id)
-            ->where('id', $validated['category_id'])
-            ->firstOrFail();
+        $validated['tenant_id'] = $tenant->id;
+        $validated['is_available'] = $request->boolean('is_available');
 
-        $this->service->create($validated);
+        $this->service->create(
+            $validated,
+            $request->file('image')
+        );
 
-        return redirect()->back()->with('success', 'Producto creado correctamente');
+        return redirect()->back()
+            ->with('success', 'Producto creado correctamente');
     }
 
     public function update(Request $request, $subdomain, $productId)
@@ -63,16 +72,35 @@ class ProductController extends Controller
             ->firstOrFail();
 
         $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'nullable|numeric|min:0',
-            'is_available' => 'boolean',
+            'category_id' => [
+                'required',
+                function ($attribute, $value, $fail) use ($tenant) {
+                    $exists = Category::where('tenant_id', $tenant->id)
+                        ->where('id', $value)
+                        ->exists();
+
+                    if (!$exists) {
+                        $fail('La categoría no es válida.');
+                    }
+                }
+            ],
+            'name'         => 'required|string|max:255',
+            'description'  => 'nullable|string',
+            'price'        => 'nullable|numeric|min:0',
+            'is_available' => 'required|in:0,1',
+            'image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        $this->service->update($product, $validated);
+        $validated['is_available'] = $request->boolean('is_available');
 
-        return redirect()->back()->with('success', 'Producto actualizado');
+        $this->service->update(
+            $product,
+            $validated,
+            $request->file('image')
+        );
+
+        return redirect()->back()
+            ->with('success', 'Producto actualizado correctamente');
     }
 
     public function destroy($subdomain, $productId)
@@ -85,6 +113,6 @@ class ProductController extends Controller
 
         $this->service->delete($product);
 
-        return redirect()->back()->with('success', 'Producto eliminado');
+        return redirect()->back()->with('success', 'Producto eliminado correctamente');
     }
 }
