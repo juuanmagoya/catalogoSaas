@@ -53,7 +53,7 @@ class CategoryController extends Controller
     /**
      * Actualizar categoría
      */
-    public function update(Request $request, $subdomain, $categoryId)
+    public function update(Request $request, $slug, $categoryId)
     {
         $tenant = TenantContext::getTenant();
 
@@ -83,7 +83,7 @@ class CategoryController extends Controller
     /**
      * Eliminar categoría (aislado por tenant)
      */
-    public function destroy($subdomain, $categoryId)
+    public function destroy($slug, $categoryId)
     {
         $tenant = TenantContext::getTenant();
 

@@ -63,7 +63,7 @@ class ProductController extends Controller
             ->with('success', 'Producto creado correctamente');
     }
 
-    public function update(Request $request, $subdomain, $productId)
+    public function update(Request $request, $slug, $productId)
     {
         $tenant = TenantContext::getTenant();
 
@@ -103,7 +103,7 @@ class ProductController extends Controller
             ->with('success', 'Producto actualizado correctamente');
     }
 
-    public function destroy($subdomain, $productId)
+    public function destroy($slug, $productId)
     {
         $tenant = TenantContext::getTenant();
 

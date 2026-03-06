@@ -46,7 +46,7 @@ Route::middleware(['auth', 'admin.global'])
 */
 
 Route::middleware(['tenant', 'auth', 'tenant.user'])
-    ->prefix('/{subdomain}/admin')
+    ->prefix('/{tenant:slug}/admin') // ✅ Cambiado a slug
     ->as('tenant.admin.')
     ->group(function () {
 
@@ -134,7 +134,7 @@ require __DIR__.'/auth.php';
 */
 
 Route::middleware(['tenant'])
-    ->prefix('/{subdomain}')
+    ->prefix('/{tenant:slug}') // ✅ Cambiado a slug
     ->group(function () {
 
         Route::get('/', [PublicMenuController::class, 'index'])
