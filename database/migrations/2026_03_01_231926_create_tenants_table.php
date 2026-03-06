@@ -19,7 +19,7 @@ return new class extends Migration
                     ->cascadeOnUpdate()
                     ->restrictOnDelete();
 
-            $table->timestamp('trial_ends_at')->nullable();
+            $table->timestamp('trial_ends_at')->nullable(); 
             $table->timestamp('subscription_ends_at')->nullable();
 
             $table->enum('status', [
