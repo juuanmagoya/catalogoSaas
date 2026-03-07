@@ -46,7 +46,7 @@
                     Negocios
                 </a>
 
-                <a href="#"
+                <a href="{{ route('admin.plans.index') }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-lg
                           hover:bg-amber-800 transition">
                     Planes

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Domains\Catalog\Category\Models\Category;
 use App\Models\User; 
+use App\Domains\Plan\Models\Plan;
 
 class Tenant extends Model
 {
@@ -28,7 +29,7 @@ class Tenant extends Model
 
     public function plan()
     {
-        //return $this->belongsTo(\App\Domains\Plan\Models\Plan::class);
+        return $this->belongsTo(Plan::class);
     }
 
     public function users()

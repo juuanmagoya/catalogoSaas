@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Tenant\PublicMenuController;
+use App\Http\Controllers\Admin\AdminTenantController;
+use App\Http\Controllers\Admin\AdminPlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +35,22 @@ Route::middleware(['auth', 'admin.global'])
             return view('admin.dashboard');
         })->name('dashboard');
 
-        // Aquí luego agregamos:
-        // tenants
-        // planes
+        /*
+        |--------------------------------------------------------------------------
+        | Tenants
+        |--------------------------------------------------------------------------
+        */
+
+        Route::resource('tenants', AdminTenantController::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Plans
+        |--------------------------------------------------------------------------
+        */
+
+        Route::resource('plans', AdminPlanController::class);
+
     });
 
 
@@ -46,7 +61,7 @@ Route::middleware(['auth', 'admin.global'])
 */
 
 Route::middleware(['tenant', 'auth', 'tenant.user'])
-    ->prefix('/{tenant:slug}/admin') // ✅ Cambiado a slug
+    ->prefix('/{tenant:slug}/admin')
     ->as('tenant.admin.')
     ->group(function () {
 
@@ -134,7 +149,7 @@ require __DIR__.'/auth.php';
 */
 
 Route::middleware(['tenant'])
-    ->prefix('/{tenant:slug}') // ✅ Cambiado a slug
+    ->prefix('/{tenant:slug}')
     ->group(function () {
 
         Route::get('/', [PublicMenuController::class, 'index'])
