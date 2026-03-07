@@ -54,13 +54,22 @@ class ProductController extends Controller
         $validated['tenant_id'] = $tenant->id;
         $validated['is_available'] = $request->boolean('is_available');
 
-        $this->service->create(
-            $validated,
-            $request->file('image')
-        );
+        try {
 
-        return redirect()->back()
-            ->with('success', 'Producto creado correctamente');
+            $this->service->create(
+                $validated,
+                $request->file('image')
+            );
+
+            return redirect()->back()
+                ->with('success', 'Producto creado correctamente');
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', $e->getMessage());
+        }
     }
 
     public function update(Request $request, $slug, $productId)

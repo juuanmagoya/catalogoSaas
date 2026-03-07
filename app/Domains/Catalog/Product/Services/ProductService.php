@@ -18,7 +18,7 @@ class ProductService
 
         return Product::query()
             ->where('tenant_id', $tenant->id)
-            ->with(['category:id,name']) // evita N+1
+            ->with(['category:id,name'])
             ->latest()
             ->paginate(15);
     }
@@ -33,10 +33,27 @@ class ProductService
             ->orderBy('name')
             ->get();
     }
+
     public function create(array $data, $image = null): Product
     {
         $tenant = TenantContext::getTenant();
-        $subdomain = $tenant->subdomain;
+
+        // 🔒 Validar límite de productos del plan
+        $plan = $tenant->plan;
+
+        if ($plan && $plan->max_products !== null) {
+
+            $productsCount = Product::where('tenant_id', $tenant->id)->count();
+
+            if ($productsCount >= $plan->max_products) {
+                throw new \Exception(
+                    "Has alcanzado el límite de productos de tu plan ({$plan->max_products})."
+                );
+            }
+        }
+
+        // ⚠️ CAMBIO: ahora usamos slug
+        $slug = $tenant->slug;
 
         // 🖼 Procesar imagen optimizada
         if ($image) {
@@ -48,7 +65,9 @@ class ProductService
             $img->scale(width: 800);
 
             $filename = uniqid() . '.webp';
-            $path = "tenants/{$subdomain}/products/{$filename}";
+
+            // ⚠️ CAMBIO AQUÍ
+            $path = "tenants/{$slug}/products/{$filename}";
 
             Storage::disk('public')->put(
                 $path,
@@ -70,8 +89,7 @@ class ProductService
 
     public function update(Product $product, array $data, $image = null): Product
     {
-        if (isset($data['name']) && $data['name'] !== $product->name) 
-        {
+        if (isset($data['name']) && $data['name'] !== $product->name) {
             $data['slug'] = $this->generateUniqueSlug(
                 $data['name'],
                 $product->tenant_id,
@@ -83,12 +101,15 @@ class ProductService
         if ($image) {
 
             $tenant = TenantContext::getTenant();
-            $subdomain = $tenant->subdomain;
+
+            // ⚠️ CAMBIO: usar slug
+            $slug = $tenant->slug;
 
             // Eliminar imagen anterior
-            if ($product->image_path &&
-                Storage::disk('public')->exists($product->image_path)) {
-
+            if (
+                $product->image_path &&
+                Storage::disk('public')->exists($product->image_path)
+            ) {
                 Storage::disk('public')->delete($product->image_path);
             }
 
@@ -98,7 +119,9 @@ class ProductService
             $img->scale(width: 800);
 
             $filename = uniqid() . '.webp';
-            $path = "tenants/{$subdomain}/products/{$filename}";
+
+            // ⚠️ CAMBIO AQUÍ
+            $path = "tenants/{$slug}/products/{$filename}";
 
             Storage::disk('public')->put(
                 $path,
@@ -127,10 +150,10 @@ class ProductService
     }
 
     protected function generateUniqueSlug(
-    string $name,
-    int $tenantId,
-    ?int $ignoreId = null
-    ): string 
+        string $name,
+        int $tenantId,
+        ?int $ignoreId = null
+    ): string
     {
         $baseSlug = Str::slug($name);
         $slug = $baseSlug;

@@ -1,5 +1,6 @@
 @php
     $user = Auth::user();
+    $tenant = request()->route('tenant');
 @endphp
 
 <aside
@@ -24,10 +25,9 @@
                 Principal
             </p>
 
-            <a href=" {{ $user->isAdmin() ? route('admin.dashboard') : route('tenant.admin.dashboard', request()->route('subdomain')) }}"
-               class="flex items-center gap-3 px-3 py-2 rounded-lg
-                      hover:bg-amber-800 transition">
-                Dashboard Admin
+            <a href="{{ $user->isAdmin() ? route('admin.dashboard') : route('tenant.admin.dashboard', ['tenant' => $tenant]) }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
+                Dashboard
             </a>
         </div>
 
@@ -41,21 +41,13 @@
             <nav class="space-y-2">
 
                 <a href="{{ route('admin.tenants.index') }}"
-                   class="flex items-center gap-3 px-3 py-2 rounded-lg
-                          hover:bg-amber-800 transition">
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Negocios
                 </a>
 
                 <a href="{{ route('admin.plans.index') }}"
-                   class="flex items-center gap-3 px-3 py-2 rounded-lg
-                          hover:bg-amber-800 transition">
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Planes
-                </a>
-
-                <a href="#"
-                   class="flex items-center gap-3 px-3 py-2 rounded-lg
-                          hover:bg-amber-800 transition">
-                    Suscripciones
                 </a>
 
             </nav>
@@ -72,21 +64,18 @@
 
             <nav class="space-y-2">
 
-                <a href="{{ route('tenant.admin.categories.index', request()->route('subdomain')) }}"
-                   class="flex items-center gap-3 px-3 py-2 rounded-lg
-                          hover:bg-amber-800 transition">
+                <a href="{{ route('tenant.admin.categories.index', ['tenant' => $tenant]) }}"
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Categorías
                 </a>
 
-                <a  href="{{ route('tenant.admin.products.index', request()->route('subdomain')) }}"
-                   class="flex items-center gap-3 px-3 py-2 rounded-lg
-                          hover:bg-amber-800 transition">
+                <a href="{{ route('tenant.admin.products.index', ['tenant' => $tenant]) }}"
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Productos
                 </a>
 
                 <a href="#"
-                   class="flex items-center gap-3 px-3 py-2 rounded-lg
-                          hover:bg-amber-800 transition">
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Configuración
                 </a>
 
@@ -118,6 +107,7 @@
                 Cerrar sesión
             </button>
         </form>
+
     </div>
 
 </aside>

@@ -32,22 +32,24 @@ class CategoryService
     {
         $tenant = TenantContext::getTenant();
 
+        // ⚠️ CAMBIO: usar slug en vez de subdomain
+        $slug = $tenant->slug;
+
         // 🖼 Procesar imagen optimizada
         if ($image) {
-
-            $subdomain = $tenant->subdomain;
 
             $manager = new ImageManager(new Driver());
             $img = $manager->read($image);
 
-            // 🔥 Redimensionar manteniendo proporción (máx 800px ancho)
+            // Redimensionar manteniendo proporción
             $img->scale(width: 800);
 
-            // Generar nombre único en webp
+            // Generar nombre único
             $filename = uniqid() . '.webp';
-            $path = "tenants/{$subdomain}/categories/{$filename}";
 
-            // Guardar optimizada (calidad 75)
+            // ⚠️ CAMBIO AQUÍ
+            $path = "tenants/{$slug}/categories/{$filename}";
+
             Storage::disk('public')->put(
                 $path,
                 (string) $img->toWebp(75)
@@ -83,21 +85,27 @@ class CategoryService
         if ($image) {
 
             $tenant = TenantContext::getTenant();
-            $subdomain = $tenant->subdomain;
 
-            // 🔥 Eliminar imagen anterior si existe
-            if ($category->image_path && Storage::disk('public')->exists($category->image_path)) {
+            // ⚠️ CAMBIO: usar slug
+            $slug = $tenant->slug;
+
+            // Eliminar imagen anterior
+            if (
+                $category->image_path &&
+                Storage::disk('public')->exists($category->image_path)
+            ) {
                 Storage::disk('public')->delete($category->image_path);
             }
 
             $manager = new ImageManager(new Driver());
             $img = $manager->read($image);
 
-            // 🔥 Redimensionar manteniendo proporción
             $img->scale(width: 800);
 
             $filename = uniqid() . '.webp';
-            $path = "tenants/{$subdomain}/categories/{$filename}";
+
+            // ⚠️ CAMBIO AQUÍ
+            $path = "tenants/{$slug}/categories/{$filename}";
 
             Storage::disk('public')->put(
                 $path,
@@ -117,12 +125,14 @@ class CategoryService
      */
     public function delete(Category $category): void
     {
-        // 🖼 Si tiene imagen, eliminarla del storage
-        if ($category->image_path && Storage::disk('public')->exists($category->image_path)) {
+        // 🖼 Eliminar imagen si existe
+        if (
+            $category->image_path &&
+            Storage::disk('public')->exists($category->image_path)
+        ) {
             Storage::disk('public')->delete($category->image_path);
         }
 
-        // 🗑 Eliminar registro
         $category->delete();
     }
 
@@ -134,6 +144,7 @@ class CategoryService
         int $tenantId,
         ?int $ignoreId = null
     ): string {
+
         $baseSlug = Str::slug($name);
         $slug = $baseSlug;
         $counter = 1;

@@ -139,15 +139,14 @@
 
                             <div class="flex justify-end gap-4">
 
-                                {{-- Editar --}}
                                 <button
                                     type="button"
-                                    onclick="openEditTenantModal(
-                                        '{{ route('admin.tenants.update', $tenant->id) }}',
-                                        '{{ $tenant->name }}',
-                                        '{{ $tenant->plan_id }}',
-                                        '{{ $tenant->status }}'
-                                    )"
+                                    onclick='openEditTenantModal(
+                                        "{{ route("admin.tenants.update", $tenant->id) }}",
+                                        @json($tenant->name),
+                                        "{{ $tenant->plan_id }}",
+                                        "{{ $tenant->status }}"
+                                    )'
                                     class="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-sm font-medium">
                                     ✏️ Editar
                                 </button>
@@ -222,7 +221,7 @@ function openCreateTenantModal(actionUrl) {
 
 
 
-function openEditTenantModal(actionUrl, name, slug, planId, status) {
+function openEditTenantModal(actionUrl, name, planId, status) {
 
     const modal = document.getElementById('tenantModal');
     const form = document.getElementById('tenantForm');
@@ -234,12 +233,9 @@ function openEditTenantModal(actionUrl, name, slug, planId, status) {
     document.getElementById('tenantMethodField').innerHTML =
         '<input type="hidden" name="_method" value="PUT">';
 
-
     document.getElementById('tenantName').value = name ?? '';
-    document.getElementById('tenantSlug').value = slug ?? '';
     document.getElementById('tenantPlan').value = planId ?? '';
     document.getElementById('tenantStatus').value = status ?? '';
-
 
     modal.classList.remove('hidden');
     modal.classList.add('flex');

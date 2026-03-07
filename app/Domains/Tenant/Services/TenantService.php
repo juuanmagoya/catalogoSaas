@@ -62,7 +62,7 @@ class TenantService
         ?int $ignoreId = null
     ): string {
 
-        $baseSlug = Str::slug($name);
+        $baseSlug = Str::slug(str_replace(' ', '', $name));
         $slug = $baseSlug;
         $counter = 1;
 
