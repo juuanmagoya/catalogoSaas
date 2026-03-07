@@ -40,7 +40,7 @@
 
             <nav class="space-y-2">
 
-                <a href="#"
+                <a href="{{ route('admin.tenants.index') }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-lg
                           hover:bg-amber-800 transition">
                     Negocios

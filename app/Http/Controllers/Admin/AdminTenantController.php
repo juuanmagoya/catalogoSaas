@@ -23,21 +23,11 @@ class AdminTenantController extends Controller
      */
     public function index()
     {
-        $tenants = Tenant::with('plan')
-            ->latest()
-            ->paginate(15);
+        $tenants = $this->tenantService->getAll();
 
-        return view('admin.tenants.index', compact('tenants'));
-    }
+        $plans = Plan::all();
 
-    /**
-     * Formulario de creación
-     */
-    public function create()
-    {
-        $plans = Plan::pluck('name', 'id');
-
-        return view('admin.tenants.create', compact('plans'));
+        return view('admin.tenant.index', compact('tenants','plans'));
     }
 
     /**
@@ -47,14 +37,6 @@ class AdminTenantController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required','string','max:255'],
-
-            'slug' => [
-                'required',
-                'string',
-                'max:255',
-                'alpha_dash',
-                'unique:tenants,slug'
-            ],
 
             'plan_id' => [
                 'required',
@@ -75,40 +57,12 @@ class AdminTenantController extends Controller
     }
 
     /**
-     * Mostrar tenant
-     */
-    public function show(Tenant $tenant)
-    {
-        $tenant->load('plan');
-
-        return view('admin.tenants.show', compact('tenant'));
-    }
-
-    /**
-     * Formulario editar
-     */
-    public function edit(Tenant $tenant)
-    {
-        $plans = Plan::pluck('name', 'id');
-
-        return view('admin.tenants.edit', compact('tenant','plans'));
-    }
-
-    /**
      * Actualizar tenant
      */
     public function update(Request $request, Tenant $tenant)
     {
         $validated = $request->validate([
             'name' => ['required','string','max:255'],
-
-            'slug' => [
-                'required',
-                'string',
-                'max:255',
-                'alpha_dash',
-                Rule::unique('tenants','slug')->ignore($tenant->id)
-            ],
 
             'plan_id' => [
                 'required',

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Domains\Catalog\Category\Models\Category;
 use App\Models\User; 
 use App\Domains\Plan\Models\Plan;
+use App\Domains\Catalog\Product\Models\Product;
 
 class Tenant extends Model
 {
@@ -14,12 +15,13 @@ class Tenant extends Model
 
     protected $fillable = [
         'name',
-        'subdomain',
+        'slug',
         'email',
         'plan_id',
         'trial_ends_at',
         'subscription_ends_at',
         'status',
+        
     ];
 
     protected $casts = [
@@ -36,8 +38,13 @@ class Tenant extends Model
     {
         return $this->hasMany(User::class);
     }
+
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 }

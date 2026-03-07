@@ -2,28 +2,31 @@
 
 namespace App\Domains\Tenant\Services;
 
+use Illuminate\Support\Str;
 use App\Domains\Tenant\Models\Tenant;
-use Illuminate\Support\Facades\DB;
 
 class TenantService
 {
     /**
-     * Crear un tenant
+     * Obtener todos los tenants
+     */
+    public function getAll()
+    {
+        return Tenant::query()
+            ->with('plan')
+            ->withCount('products')
+            ->latest()
+            ->paginate(15);
+    }
+
+    /**
+     * Crear tenant
      */
     public function create(array $data): Tenant
     {
-        return DB::transaction(function () use ($data) {
+        $data['slug'] = $this->generateUniqueSlug($data['name']);
 
-            $tenant = Tenant::create([
-                'name' => $data['name'],
-                'slug' => $data['slug'],
-                'plan_id' => $data['plan_id'],
-                'status' => $data['status'],
-            ]);
-
-            return $tenant;
-
-        });
+        return Tenant::create($data);
     }
 
     /**
@@ -31,18 +34,16 @@ class TenantService
      */
     public function update(Tenant $tenant, array $data): Tenant
     {
-        return DB::transaction(function () use ($tenant, $data) {
+        if (isset($data['name']) && $data['name'] !== $tenant->name) {
+            $data['slug'] = $this->generateUniqueSlug(
+                $data['name'],
+                $tenant->id
+            );
+        }
 
-            $tenant->update([
-                'name' => $data['name'],
-                'slug' => $data['slug'],
-                'plan_id' => $data['plan_id'],
-                'status' => $data['status'],
-            ]);
+        $tenant->update($data);
 
-            return $tenant;
-
-        });
+        return $tenant->fresh();
     }
 
     /**
@@ -50,10 +51,31 @@ class TenantService
      */
     public function delete(Tenant $tenant): void
     {
-        DB::transaction(function () use ($tenant) {
+        $tenant->delete();
+    }
 
-            $tenant->delete();
+    /**
+     * Generar slug único
+     */
+    protected function generateUniqueSlug(
+        string $name,
+        ?int $ignoreId = null
+    ): string {
 
-        });
+        $baseSlug = Str::slug($name);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (
+            Tenant::where('slug', $slug)
+                ->when($ignoreId, fn ($query) =>
+                    $query->where('id', '!=', $ignoreId)
+                )
+                ->exists()
+        ) {
+            $slug = $baseSlug . '-' . $counter++;
+        }
+
+        return $slug;
     }
 }
