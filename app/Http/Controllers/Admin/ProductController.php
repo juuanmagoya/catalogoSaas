@@ -18,14 +18,25 @@ class ProductController extends Controller
         $this->service = $service;
     }
 
-    public function index()
-    {
-        // 🔥 Toda la lógica vive en el Service
-        $products = $this->service->getAllForCurrentTenant();
-        $categories = $this->service->getCategoriesForCurrentTenant();
+    public function index(Request $request)
+{
+    $search = $request->input('search');
+    $category = $request->input('category');
 
-        return view('tenant.admin.products.index', compact('products', 'categories'));
-    }
+    $products = $this->service->searchForCurrentTenant(
+        $search,
+        $category
+    );
+
+    $categories = $this->service->getCategoriesForCurrentTenant();
+
+    return view('tenant.admin.products.index', [
+        'products' => $products,
+        'categories' => $categories,
+        'search' => $search,
+        'category' => $category,
+    ]);
+}
 
     public function store(Request $request)
     {

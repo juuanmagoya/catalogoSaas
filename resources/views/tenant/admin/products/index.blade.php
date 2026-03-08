@@ -7,6 +7,7 @@ $tenant = request()->route('tenant');
 @section('content')
 <div class="max-w-7xl mx-auto px-6 py-8">
 
+
     {{-- Header --}}
     <div class="flex items-center justify-between mb-6">
         <div>
@@ -23,6 +24,60 @@ $tenant = request()->route('tenant');
             class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-sm transition">
             + Nuevo Producto
         </button>
+    </div>
+
+        {{-- Buscador --}}
+    <div class="bg-white border border-gray-100 shadow-sm rounded-xl p-4 mb-6">
+
+        <form method="GET" class="flex flex-col md:flex-row md:items-center gap-4">
+
+            {{-- Input buscar --}}
+            <div class="flex-1">
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ $search ?? '' }}"
+                    placeholder="Buscar producto por nombre..."
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2
+                        focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            {{-- Select categorías --}}
+            <div class="w-full md:w-60">
+                <select
+                    name="category"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2
+                        focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+
+                    <option value="">Todas las categorías</option>
+
+                    @foreach($categories as $cat)
+                        <option
+                            value="{{ $cat->id }}"
+                            {{ ($category ?? '') == $cat->id ? 'selected' : '' }}>
+                            {{ $cat->name }}
+                        </option>
+                    @endforeach
+
+                </select>
+            </div>
+
+            {{-- Botón buscar --}}
+            <button
+                type="submit"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium transition">
+                Buscar
+            </button>
+
+            {{-- Limpiar --}}
+            <a
+                href="{{ route('tenant.admin.products.index', $tenant) }}"
+                class="text-gray-500 hover:text-gray-700 text-sm">
+                Limpiar
+            </a>
+
+        </form>
+
     </div>
 
     {{-- Mensaje éxito --}}

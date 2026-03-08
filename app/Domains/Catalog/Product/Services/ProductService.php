@@ -34,6 +34,27 @@ class ProductService
             ->get();
     }
 
+    public function searchForCurrentTenant(?string $search = null, ?int $categoryId = null)
+    {
+        $tenant = TenantContext::getTenant();
+
+        return Product::query()
+            ->where('tenant_id', $tenant->id)
+            ->with(['category:id,name'])
+
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+
+            ->when($categoryId, function ($query) use ($categoryId) {
+                $query->where('category_id', $categoryId);
+            })
+
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+    }
+
     public function create(array $data, $image = null): Product
     {
         $tenant = TenantContext::getTenant();
