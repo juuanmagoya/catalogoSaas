@@ -74,7 +74,7 @@
                     Productos
                 </a>
 
-                <a href="#"
+                <a href="{{ route('tenant.admin.settings.edit', ['tenant' => $tenant]) }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Configuración
                 </a>

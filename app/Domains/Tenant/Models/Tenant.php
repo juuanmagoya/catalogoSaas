@@ -16,12 +16,15 @@ class Tenant extends Model
     protected $fillable = [
         'name',
         'slug',
-        'email',
         'plan_id',
         'trial_ends_at',
         'subscription_ends_at',
         'status',
-        
+        'instagram',
+        'facebook',
+        'description',
+        'address',
+        'logo_path',
     ];
 
     protected $casts = [

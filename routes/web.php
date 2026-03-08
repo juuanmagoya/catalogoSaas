@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Tenant\PublicMenuController;
+use App\Http\Controllers\Tenant\TenantSettingsController;
 use App\Http\Controllers\Admin\AdminTenantController;
 use App\Http\Controllers\Admin\AdminPlanController;
 
@@ -50,7 +51,6 @@ Route::middleware(['auth', 'admin.global'])
         */
 
         Route::resource('plans', AdminPlanController::class);
-
     });
 
 
@@ -110,6 +110,18 @@ Route::middleware(['tenant', 'auth', 'tenant.user'])
 
         Route::delete('products/{productId}', [ProductController::class, 'destroy'])
             ->name('products.destroy');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Tenant Settings
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('settings', [TenantSettingsController::class, 'edit'])
+            ->name('settings.edit');
+
+        Route::put('settings', [TenantSettingsController::class, 'update'])
+            ->name('settings.update');
     });
 
 
