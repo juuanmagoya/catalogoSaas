@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Support\TenantContext;
 use App\Domains\Tenant\Services\TenantSettingsService;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TenantSettingsController extends Controller
 {
@@ -52,5 +53,51 @@ class TenantSettingsController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Configuración actualizada correctamente.');
+    }
+    public function generateQr()
+    {
+        $tenant = TenantContext::getTenant();
+
+        $url = config('app.url') . '/' . $tenant->slug;
+
+        $qrCode =QrCode::size(300)->generate($url);
+
+        return view('tenant.settings.edit', compact('tenant', 'qrCode'));
+    }
+
+    /**
+     * Descargar QR como imagen PNG
+     */
+    public function downloadQrImage()
+    {
+        $tenant = TenantContext::getTenant();
+
+        $url = config('app.url') . '/' . $tenant->slug;
+
+        $qrImage = QrCode::format('svg')
+            ->size(400)
+            ->margin(2)
+            ->generate($url);
+
+        return response($qrImage)
+            ->header('Content-Type', 'image/svg+xml')
+            ->header('Content-Disposition', 'attachment; filename="'.$tenant->slug.'_qr.svg"');
+    }
+
+    public function downloadQrPoster()
+    {
+        $tenant = TenantContext::getTenant();
+
+        $url = config('app.url') . '/' . $tenant->slug;
+
+        $qrCode = QrCode::format('svg')
+            ->size(350)
+            ->generate($url);
+
+        return view('tenant.settings.qr-poster', [
+            'tenant' => $tenant,
+            'qrCode' => $qrCode,
+            'url' => $url
+        ]);
     }
 }

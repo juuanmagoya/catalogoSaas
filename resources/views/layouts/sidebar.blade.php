@@ -1,6 +1,13 @@
 @php
     $user = Auth::user();
+
+    // Intentar obtener tenant desde la URL
     $tenant = request()->route('tenant');
+
+    // Si no existe en la URL y el usuario es owner, usar su tenant
+    if(!$tenant && $user->isOwner()){
+        $tenant = $user->tenant;
+    }
 @endphp
 
 <aside
@@ -25,11 +32,19 @@
                 Principal
             </p>
 
-            <a href="{{ $user->isAdmin() ? route('admin.dashboard') : route('tenant.admin.dashboard', ['tenant' => $tenant]) }}"
-               class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
-                Dashboard
-            </a>
+            @if($user->isAdmin())
+                <a href="{{ route('admin.dashboard') }}"
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
+                    Dashboard
+                </a>
+            @elseif($tenant)
+                <a href="{{ route('tenant.admin.dashboard', $tenant) }}"
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
+                    Dashboard
+                </a>
+            @endif
         </div>
+
 
         {{-- ================= ADMIN ================= --}}
         @if($user->isAdmin())
@@ -56,7 +71,7 @@
 
 
         {{-- ================= OWNER ================= --}}
-        @if($user->isOwner())
+        @if($user->isOwner() && $tenant)
         <div>
             <p class="text-xs text-amber-200 mb-3 tracking-wider uppercase">
                 Mi Negocio
@@ -64,17 +79,17 @@
 
             <nav class="space-y-2">
 
-                <a href="{{ route('tenant.admin.categories.index', ['tenant' => $tenant]) }}"
+                <a href="{{ route('tenant.admin.categories.index', $tenant) }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Categorías
                 </a>
 
-                <a href="{{ route('tenant.admin.products.index', ['tenant' => $tenant]) }}"
+                <a href="{{ route('tenant.admin.products.index', $tenant) }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Productos
                 </a>
 
-                <a href="{{ route('tenant.admin.settings.edit', ['tenant' => $tenant]) }}"
+                <a href="{{ route('tenant.admin.settings.edit', $tenant) }}"
                    class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
                     Configuración
                 </a>

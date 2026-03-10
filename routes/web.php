@@ -122,7 +122,19 @@ Route::middleware(['tenant', 'auth', 'tenant.user'])
 
         Route::put('settings', [TenantSettingsController::class, 'update'])
             ->name('settings.update');
-    });
+
+        Route::get('settings/qr', [TenantSettingsController::class, 'generateQr'])
+            ->name('settings.qr');
+
+        Route::get('settings/qr/download', [TenantSettingsController::class, 'downloadQrImage'])
+            ->name('settings.qr.download');
+
+        Route::get('settings/qr/poster', [TenantSettingsController::class, 'downloadQrPoster'])
+            ->name('settings.qr.poster');
+            
+            });
+
+
 
 
 /*

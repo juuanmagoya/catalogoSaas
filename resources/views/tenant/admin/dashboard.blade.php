@@ -54,7 +54,7 @@ $tenant = request()->route('tenant');
     </a>
 
     {{-- Configuración --}}
-    <a href="#"
+    <a href="{{ route('tenant.admin.settings.edit', $tenant) }}"
        class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition duration-300 border-t-4 border-amber-600 block">
 
         <h3 class="text-neutral-500 text-sm uppercase tracking-wider">
