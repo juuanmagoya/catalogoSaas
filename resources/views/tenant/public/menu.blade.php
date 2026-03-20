@@ -337,6 +337,35 @@
 </div>
 
 <script>
+
+// En menu.blade.php, modifica la función trackEvent para hacer un debug:
+
+function trackEvent(eventType, entityType = null, entityId = null) {
+    
+    // DEBUG: Mostrar en consola lo que se está enviando
+    console.log('🔍 Enviando evento:', {
+        event_type: eventType,
+        entity_type: entityType,
+        entity_id: entityId
+    });
+
+    fetch("{{ route('analytics.track') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({
+            event_type: eventType,
+            entity_type: entityType,
+            entity_id: entityId
+        })
+    })
+    .then(response => response.json())
+    .then(data => console.log('✅ Respuesta:', data))
+    .catch(error => console.error('❌ Error:', error));
+}
+
 // ==================== CONFIGURACIÓN DE PRODUCTOS ====================
 const productsData = {
     @foreach($categories as $category)
@@ -371,6 +400,15 @@ function closeInfoModal() {
 
 // ==================== FUNCIONES DEL MODAL DE PRODUCTO (SOLO VISUALIZACIÓN) ====================
 function openProductModal(productId) {
+
+      // Asegurar que productId es un número entero
+    productId = parseInt(productId);
+    
+    console.log('📦 Abriendo producto ID:', productId, 'Tipo:', typeof productId);
+    
+    // Enviar track
+    trackEvent('product_view', 'product', productId);
+
     const product = productsData[productId];
     if (!product) return;
     
@@ -393,6 +431,14 @@ function closeProductModal() {
 function filterCategory(categoryId) {
     currentCategory = categoryId;
 
+    if (categoryId !== 'all') {
+        // Asegurar que categoryId es número
+        categoryId = parseInt(categoryId);
+        console.log('📁 Categoría seleccionada ID:', categoryId, 'Tipo:', typeof categoryId);
+        
+        trackEvent('category_view', 'category', categoryId);
+    }
+
     let categorySections = document.querySelectorAll('.category-section');
     let buttons = document.querySelectorAll('.category-btn');
 
@@ -410,6 +456,12 @@ function filterCategory(categoryId) {
 }
 
 document.getElementById('searchInput').addEventListener('keyup', function() {
+
+    let query = this.value;
+
+    if (query.length >= 3) {
+        trackEvent('search');
+    }
     applyFilters();
 });
 

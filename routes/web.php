@@ -8,6 +8,8 @@ use App\Http\Controllers\Tenant\PublicMenuController;
 use App\Http\Controllers\Tenant\TenantSettingsController;
 use App\Http\Controllers\Admin\AdminTenantController;
 use App\Http\Controllers\Admin\AdminPlanController;
+use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Tenant\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,9 +73,8 @@ Route::middleware(['tenant', 'auth', 'tenant.user'])
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/', function () {
-            return view('tenant.admin.dashboard');
-        })->name('dashboard');
+        Route::get('/', [DashboardController::class, 'index'])
+            ->name('dashboard');
 
         /*
         |--------------------------------------------------------------------------
@@ -164,11 +165,20 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+require __DIR__.'/auth.php';
+
+/*
+|--------------------------------------------------------------------------
+| Analytics Tracking
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/analytics/track', [AnalyticsController::class, 'track'])
+    ->name('analytics.track');
 
 /*
 |--------------------------------------------------------------------------
 | Catálogo Público del Tenant
-| ⚠️ SIEMPRE AL FINAL PARA NO INTERFERIR CON LOGIN
 |--------------------------------------------------------------------------
 */
 
