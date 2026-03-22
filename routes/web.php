@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminTenantController;
 use App\Http\Controllers\Admin\AdminPlanController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Tenant\DashboardController;
+use App\Http\Controllers\StorageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,16 @@ use App\Http\Controllers\Tenant\DashboardController;
 Route::get('/', function () {
     return view('welcome');
 })->name('landing');
+
+
+/*
+|--------------------------------------------------------------------------
+| Storage Files (servir imágenes sin storage:link)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/storage/{path}', [StorageController::class, 'show'])
+    ->where('path', '.*');
 
 
 /*
@@ -162,8 +173,6 @@ Route::middleware('auth')->group(function () {
 | Rutas de Autenticación Breeze
 |--------------------------------------------------------------------------
 */
-
-require __DIR__.'/auth.php';
 
 require __DIR__.'/auth.php';
 
