@@ -193,6 +193,7 @@ Route::post('/analytics/track', [AnalyticsController::class, 'track'])
 
 Route::middleware(['tenant'])
     ->prefix('/{tenant:slug}')
+    ->where('tenant', '^(?!storage$).*$')
     ->group(function () {
 
         Route::get('/', [PublicMenuController::class, 'index'])
