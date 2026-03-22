@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\AdminTenantController;
 use App\Http\Controllers\Admin\AdminPlanController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Tenant\DashboardController;
-use App\Http\Controllers\StorageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +27,6 @@ Route::get('/', function () {
 | Storage Files (servir imágenes sin storage:link)
 |--------------------------------------------------------------------------
 */
-
-Route::get('/storage/{path}', [StorageController::class, 'show'])
-    ->where('path', '.*');
 
 
 /*
@@ -193,9 +189,9 @@ Route::post('/analytics/track', [AnalyticsController::class, 'track'])
 
 Route::middleware(['tenant'])
     ->prefix('/{tenant:slug}')
-    ->where('tenant', '^(?!storage$).*$')
     ->group(function () {
 
         Route::get('/', [PublicMenuController::class, 'index'])
             ->name('tenant.public.menu');
+
     });
