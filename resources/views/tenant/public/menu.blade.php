@@ -294,11 +294,12 @@
                                         <div class="flex gap-4">
                                             {{-- IMAGEN --}}
                                             <div class="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200 cursor-pointer"
-                                                 onclick="openProductModal({{ $product->id }})">
-                                                @if($product->image_path)
-                                                    <img src="{{ asset('storage/'.$product->image_path) }}"
-                                                         class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
-                                                @endif
+                                                onclick="openProductModal({{ $product->id }})">
+
+                                                <img src="{{ $product->image_path ? asset('storage/'.$product->image_path) : asset('storage/default.jpg') }}"
+                                                    alt="{{ $product->name }}"
+                                                    class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+
                                             </div>
 
                                             {{-- INFO --}}

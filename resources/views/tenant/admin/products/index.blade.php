@@ -115,15 +115,11 @@ $tenant = request()->route('tenant');
 
                     {{-- Imagen --}}
                     <td class="px-6 py-4">
-                        @if($product->image_path)
-                            <img src="{{ asset('storage/' . $product->image_path) }}"
-                                 alt="{{ $product->name }}"
-                                 class="w-14 h-14 object-cover rounded-lg border border-gray-200 shadow-sm">
-                        @else
-                            <div class="w-14 h-14 flex items-center justify-center bg-gray-100 rounded-lg border border-gray-200 text-gray-400 text-xs">
-                                Sin imagen
-                            </div>
-                        @endif
+                        <img src="{{ $product->image_path 
+                            ? asset('storage/' . $product->image_path) 
+                            : asset('storage/default.jpg') }}"
+                            alt="{{ $product->name }}"
+                            class="w-14 h-14 object-cover rounded-lg border border-gray-200 shadow-sm">
                     </td>
 
                     {{-- Nombre --}}
