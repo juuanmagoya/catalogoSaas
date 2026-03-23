@@ -339,178 +339,191 @@
 
 <script>
 
-// En menu.blade.php, modifica la función trackEvent para hacer un debug:
+// ==================== DATA ====================
 
-function trackEvent(eventType, entityType = null, entityId = null) {
-    
-    // DEBUG: Mostrar en consola lo que se está enviando
-    console.log('🔍 Enviando evento:', {
-        event_type: eventType,
-        entity_type: entityType,
-        entity_id: entityId
-    });
+const productsData = @json(
+    $categories->flatMap->products->keyBy('id')
+);
 
-    fetch("{{ route('analytics.track') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: JSON.stringify({
-            event_type: eventType,
-            entity_type: entityType,
-            entity_id: entityId
-        })
-    })
-    .then(response => response.json())
-    .then(data => console.log('✅ Respuesta:', data))
-    .catch(error => console.error('❌ Error:', error));
-}
+// ==================== VARIABLES ====================
 
-// ==================== CONFIGURACIÓN DE PRODUCTOS ====================
-const productsData = {
-    @foreach($categories as $category)
-        @foreach($category->products as $product)
-            {{ $product->id }}: {
-                id: {{ $product->id }},
-                name: "{{ $product->name }}",
-                description: "{{ addslashes($product->description) }}",
-                price: "{{ number_format($product->price,) }}$",
-                price_raw: {{ $product->price }},
-                image: "{{ $product->image_path ? asset('storage/'.$product->image_path) : '' }}",
-                category: "{{ $category->name }}",
-                is_available: {{ $product->is_available ? 'true' : 'false' }}
-            },
-        @endforeach
-    @endforeach
-};
-
-// ==================== VARIABLES GLOBALES ====================
 let currentCategory = "all";
 
-// ==================== FUNCIONES DEL MODAL DE INFORMACIÓN ====================
+// ==================== MODAL INFO ====================
+
 function openInfoModal() {
-    document.getElementById('infoModal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+
+    const modal = document.getElementById("infoModal");
+
+    if(!modal) return;
+
+    modal.style.display = "flex";
+
+    document.body.style.overflow = "hidden";
 }
 
 function closeInfoModal() {
-    document.getElementById('infoModal').style.display = 'none';
-    document.body.style.overflow = '';
+
+    const modal = document.getElementById("infoModal");
+
+    if(!modal) return;
+
+    modal.style.display = "none";
+
+    document.body.style.overflow = "";
 }
 
-// ==================== FUNCIONES DEL MODAL DE PRODUCTO (SOLO VISUALIZACIÓN) ====================
+// ==================== MODAL PRODUCTO ====================
+
 function openProductModal(productId) {
 
-      // Asegurar que productId es un número entero
-    productId = parseInt(productId);
-    
-    console.log('📦 Abriendo producto ID:', productId, 'Tipo:', typeof productId);
-    
-    // Enviar track
-    trackEvent('product_view', 'product', productId);
-
     const product = productsData[productId];
-    if (!product) return;
-    
-    document.getElementById('modalProductName').textContent = product.name;
-    document.getElementById('modalProductDescription').textContent = product.description || 'Sin descripción disponible';
-    document.getElementById('modalProductPrice').textContent = product.price;
-    document.getElementById('modalProductImg').src = product.image || 'https://via.placeholder.com/400x300?text=Sin+imagen';
-    document.getElementById('modalProductImg').alt = product.name;
-    
-    document.getElementById('productModal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+
+    if(!product) return;
+
+    document.getElementById("modalProductName").textContent = product.name;
+
+    document.getElementById("modalProductDescription").textContent =
+        product.description || "Sin descripción disponible";
+
+    document.getElementById("modalProductPrice").textContent =
+        product.price + "$";
+
+    document.getElementById("modalProductImg").src =
+        product.image_path
+        ? "/storage/" + product.image_path
+        : "https://via.placeholder.com/400x300?text=Sin+imagen";
+
+    document.getElementById("modalProductImg").alt = product.name;
+
+    document.getElementById("productModal").style.display = "flex";
+
+    document.body.style.overflow = "hidden";
 }
 
 function closeProductModal() {
-    document.getElementById('productModal').style.display = 'none';
-    document.body.style.overflow = '';
+
+    document.getElementById("productModal").style.display = "none";
+
+    document.body.style.overflow = "";
 }
 
-// ==================== FUNCIONES DE FILTRO ====================
+// ==================== FILTRO CATEGORIA ====================
+
 function filterCategory(categoryId) {
+
     currentCategory = categoryId;
 
-    if (categoryId !== 'all') {
-        // Asegurar que categoryId es número
-        categoryId = parseInt(categoryId);
-        console.log('📁 Categoría seleccionada ID:', categoryId, 'Tipo:', typeof categoryId);
-        
-        trackEvent('category_view', 'category', categoryId);
-    }
-
-    let categorySections = document.querySelectorAll('.category-section');
-    let buttons = document.querySelectorAll('.category-btn');
+    const buttons = document.querySelectorAll(".category-btn");
 
     buttons.forEach(btn => {
-        btn.classList.remove('bg-red-600', 'text-white');
-        btn.classList.add('bg-gray-200', 'text-gray-700');
+
+        btn.classList.remove("bg-red-600","text-white");
+
+        btn.classList.add("bg-gray-200","text-gray-700");
+
     });
 
-    document.querySelectorAll(`[data-category="${categoryId}"]`).forEach(btn => {
-        btn.classList.remove('bg-gray-200', 'text-gray-700');
-        btn.classList.add('bg-red-600', 'text-white');
-    });
+    const activeBtn = document.querySelector(`[data-category="${categoryId}"]`);
+
+    if(activeBtn){
+
+        activeBtn.classList.remove("bg-gray-200","text-gray-700");
+
+        activeBtn.classList.add("bg-red-600","text-white");
+
+    }
 
     applyFilters();
 }
 
-document.getElementById('searchInput').addEventListener('keyup', function() {
+// ==================== SEARCH ====================
 
-    let query = this.value;
+document
+.getElementById("searchInput")
+.addEventListener("keyup", applyFilters);
 
-    if (query.length >= 3) {
-        trackEvent('search');
-    }
-    applyFilters();
-});
+// ==================== FILTROS ====================
 
-function applyFilters() {
-    let search = document.getElementById('searchInput').value.toLowerCase();
-    let categorySections = document.querySelectorAll('.category-section');
-    let products = document.querySelectorAll('.product-card');
+function applyFilters(){
 
-    // Primero ocultar todos los productos
+    const search = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const products = document.querySelectorAll(".product-card");
+
+    const sections = document.querySelectorAll(".category-section");
+
     products.forEach(product => {
-        let matchesCategory = currentCategory === "all" || product.dataset.category === currentCategory;
-        let matchesSearch = product.dataset.name.includes(search) || 
-                           (product.dataset.categoryName && product.dataset.categoryName.includes(search));
 
-        if (matchesCategory && matchesSearch) {
+        const name = product.dataset.name;
+
+        const category = product.dataset.category;
+
+        const matchCategory =
+            currentCategory === "all" || category === currentCategory;
+
+        const matchSearch =
+            name.includes(search);
+
+        if(matchCategory && matchSearch){
+
             product.style.display = "block";
-        } else {
+
+        }else{
+
             product.style.display = "none";
+
         }
+
     });
 
-    // Mostrar/ocultar secciones de categorías según productos visibles
-    categorySections.forEach(section => {
-        let sectionProducts = section.querySelectorAll('.product-card');
-        let hasVisibleProducts = Array.from(sectionProducts).some(p => p.style.display === "block");
-        
-        if (hasVisibleProducts && (currentCategory === "all" || section.dataset.categoryId === currentCategory)) {
+    sections.forEach(section => {
+
+        const visible = section.querySelectorAll(
+            '.product-card[style="display: block;"]'
+        );
+
+        if(visible.length > 0){
+
             section.style.display = "block";
-        } else {
+
+        }else{
+
             section.style.display = "none";
+
         }
+
     });
+
 }
 
-// ==================== CERRAR MODALES CON TECLA ESC ====================
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
+// ==================== ESC ====================
+
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Escape"){
+
         closeInfoModal();
+
         closeProductModal();
+
     }
+
 });
 
-// ==================== INICIALIZACIÓN ====================
-document.addEventListener('DOMContentLoaded', function() {
-    // Asegurar que los modales estén ocultos al inicio
+// ==================== INIT ====================
+
+document.addEventListener("DOMContentLoaded", function(){
+
     closeInfoModal();
+
     closeProductModal();
+
 });
+
 </script>
 
 </body>
