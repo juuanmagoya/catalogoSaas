@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminTenantController;
 use App\Http\Controllers\Admin\AdminPlanController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Tenant\DashboardController;
+use App\Http\Controllers\Tenant\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -193,5 +194,27 @@ Route::middleware(['tenant'])
 
         Route::get('/', [PublicMenuController::class, 'index'])
             ->name('tenant.public.menu');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Carrito
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('cart')->group(function () {
+
+            Route::post('/add', [CartController::class, 'add'])
+                ->name('cart.add');
+
+            Route::post('/remove', [CartController::class, 'remove'])
+                ->name('cart.remove');
+
+            Route::get('/', [CartController::class, 'cart'])
+                ->name('cart.get');
+
+            Route::get('/whatsapp', [CartController::class, 'whatsapp'])
+                ->name('cart.whatsapp');
+
+        });
 
     });

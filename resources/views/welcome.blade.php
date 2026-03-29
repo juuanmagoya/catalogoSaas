@@ -306,11 +306,13 @@
             
             <!-- Imagen derecha -->
             <div class="relative reveal" style="transition-delay: 0.2s;">
-                <div class="absolute -inset-4 gradient-primary rounded-3xl blur-2xl opacity-30 animate-pulse-glow"></div>
+                <div class="absolute -inset-1 gradient-primary rounded-3xl blur-2xl opacity-30 animate-pulse-glow"></div>
                 <div class="relative glass-effect rounded-3xl p-2">
-                    <img src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?w=800&auto=format" 
-                         alt="Cliente usando menú digital QR" 
-                         class="rounded-2xl shadow-2xl w-full">
+                    <img 
+                        src="{{ asset('storage/logomenuvya.png') }}"
+                        alt="Logo menuvya"
+                        class="rounded-2xl drop-shadow-2xl w-[520px] md:w-[620px]"
+                    >
                     
                     <!-- Badge flotante -->
                     <div class="absolute -bottom-6 -left-6 glass-effect rounded-2xl p-4 animate-float">
@@ -722,17 +724,6 @@
             </div>
             
             <!-- FAQ 4 -->
-            <div class="glass-effect rounded-2xl p-6 reveal">
-                <button class="faq-btn w-full text-left flex justify-between items-center" onclick="toggleFaq(this)">
-                    <h3 class="font-bold text-lg">¿Puedo probar antes de pagar?</h3>
-                    <span class="text-2xl ml-4">+</span>
-                </button>
-                <div class="faq-content hidden mt-4 text-gray-400">
-                    Por supuesto. Todos nuestros planes incluyen acceso inmediato. Puedes crear tu catálogo y ver cómo funciona antes de decidirte.
-                </div>
-            </div>
-            
-            <!-- FAQ 5 -->
             <div class="glass-effect rounded-2xl p-6 reveal">
                 <button class="faq-btn w-full text-left flex justify-between items-center" onclick="toggleFaq(this)">
                     <h3 class="font-bold text-lg">¿Qué pasa si supero los 50 productos del plan Básico?</h3>
