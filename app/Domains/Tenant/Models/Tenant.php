@@ -25,6 +25,7 @@ class Tenant extends Model
         'description',
         'address',
         'logo_path',
+        'whatsapp_number'
     ];
 
     protected $casts = [
@@ -49,5 +50,24 @@ class Tenant extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function hasFeature(string $feature): bool
+    {
+        $features = [
+            'Plan Básico' => [
+                'catalog',
+            ],
+
+            'Premium Pro' => [
+                'catalog',
+                'cart',
+                'whatsapp_order',
+            ],
+        ];
+
+        $planName = $this->plan->name ?? null;
+
+        return in_array($feature, $features[$planName] ?? []);
     }
 }
