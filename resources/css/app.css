@@ -1,3 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "@tailwindcss/forms";
+
+@theme {
+    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Definir las rutas donde Tailwind buscará las clases */
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';

@@ -1,82 +1,116 @@
+<!-- ===================================================== -->
+<!-- LISTADO DE PRODUCTOS                                  -->
+<!-- Se muestran agrupados por categorías                  -->
+<!-- ===================================================== -->
+
 <div class="mt-8 pb-20 px-4 md:px-6">
 
-<div id="productsContainer">
+    <!-- CONTENEDOR GENERAL DE PRODUCTOS -->
+    <div id="productsContainer">
 
-@foreach($categories as $category)
+        @foreach($categories as $category)
 
-@if($category->products->count())
+            <!-- SOLO MOSTRAR CATEGORÍA SI TIENE PRODUCTOS -->
+            @if($category->products->count())
 
-<div class="category-section mb-10" data-category-id="{{ $category->id }}">
+                <!-- ================================================= -->
+                <!-- SECCIÓN DE CATEGORÍA                              -->
+                <!-- ================================================= -->
 
-<h2 class="font-bold text-xl mb-5 text-gray-200 border-l-4 border-[#b8860b] pl-3">
-{{ $category->name }}
-</h2>
+                <div class="category-section mb-10"
+                     data-category-id="{{ $category->id }}">
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                    <!-- TÍTULO DE LA CATEGORÍA -->
+                    <h2 class="font-bold text-xl mb-5 text-gray-200 border-l-4 border-[#b8860b] pl-3">
+                        {{ $category->name }}
+                    </h2>
 
-@foreach($category->products as $product)
 
-<div
-class="product-card bg-[#1e1e1e] rounded-xl overflow-hidden flex items-stretch transition-all duration-300 hover:scale-[1.02] shadow-[0_8px_30px_rgb(0,0,0,0.5)] hover:shadow-[0_15px_35px_rgba(184,134,11,0.2)] border border-[#b8860b]/60"
-data-category="{{ $category->id }}"
-data-name="{{ strtolower($product->name) }}">
+                    <!-- ================================================= -->
+                    <!-- GRID DE PRODUCTOS                                 -->
+                    <!-- ================================================= -->
 
-<!-- IMAGEN -->
-<div
-class="w-28 flex-shrink-0 cursor-pointer relative overflow-hidden"
-onclick="openProductModal({{ $product->id }})">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
 
-<img
-src="{{ $product->image_path ? asset('storage/'.$product->image_path) : asset('storage/default.jpg') }}"
-class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        @foreach($category->products as $product)
 
-<!-- Sutil overlay mostaza en la imagen -->
-<div class="absolute inset-0 bg-gradient-to-r from-[#b8860b]/0 via-[#b8860b]/0 to-[#b8860b]/10"></div>
+                            <!-- ================================================= -->
+                            <!-- TARJETA DE PRODUCTO                               -->
+                            <!-- ================================================= -->
 
-</div>
+                            <div class="product-card bg-[#1e1e1e] rounded-xl overflow-hidden flex items-stretch transition-all duration-300 hover:scale-[1.02] shadow-[0_8px_30px_rgb(0,0,0,0.5)] hover:shadow-[0_15px_35px_rgba(184,134,11,0.2)] border border-[#b8860b]/60"
+                                 data-category="{{ $category->id }}"
+                                 data-name="{{ strtolower($product->name) }}">
 
-<!-- CONTENIDO -->
-<div class="flex-1 px-4 py-3 flex flex-col justify-center">
+                                <!-- ================================================= -->
+                                <!-- IMAGEN DEL PRODUCTO                               -->
+                                <!-- ================================================= -->
 
-<h3 class="font-semibold text-gray-100 text-base">
-{{ $product->name }}
-</h3>
+                                <div class="w-28 flex-shrink-0 cursor-pointer relative overflow-hidden"
+                                     onclick="openProductModal({{ $product->id }})">
 
-<p class="text-sm text-gray-400 mt-1 line-clamp-2">
-{{ $product->description }}
-</p>
+                                    <img
+                                        src="{{ $product->image_path ? asset('storage/'.$product->image_path) : asset('storage/default.jpg') }}"
+                                        class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
 
-<p class="text-[#e5a035] font-bold mt-2 text-lg">
-${{ number_format($product->price) }}
-</p>
+                                    <!-- Overlay decorativo -->
+                                    <div class="absolute inset-0 bg-gradient-to-r from-[#b8860b]/0 via-[#b8860b]/0 to-[#b8860b]/10"></div>
 
-</div>
+                                </div>
 
-<!-- BOTÓN + -->
-<div class="flex items-center pr-4">
 
-<button
-onclick="openProductModal({{ $product->id }})"
-class="bg-gradient-to-r from-[#b8860b] to-[#d4a017] hover:from-[#d4a017] hover:to-[#e5a035] text-black font-bold w-10 h-10 rounded-full flex items-center justify-center text-xl transition-all duration-300 shadow-lg hover:shadow-xl shadow-[#b8860b]/30">
+                                <!-- ================================================= -->
+                                <!-- CONTENIDO DEL PRODUCTO                           -->
+                                <!-- ================================================= -->
 
-+
+                                <div class="flex-1 px-4 py-3 flex flex-col justify-center">
 
-</button>
+                                    <!-- NOMBRE -->
+                                    <h3 class="font-semibold text-gray-100 text-base">
+                                        {{ $product->name }}
+                                    </h3>
 
-</div>
+                                    <!-- DESCRIPCIÓN -->
+                                    <p class="text-sm text-gray-400 mt-1 line-clamp-2">
+                                        {{ $product->description }}
+                                    </p>
 
-</div>
+                                    <!-- PRECIO -->
+                                    <p class="text-[#e5a035] font-bold mt-2 text-lg">
+                                        ${{ number_format($product->price) }}
+                                    </p>
 
-@endforeach
+                                </div>
 
-</div>
 
-</div>
+                                <!-- ================================================= -->
+                                <!-- BOTÓN DE ACCIÓN (+)                               -->
+                                <!-- Abre el modal del producto                        -->
+                                <!-- ================================================= -->
 
-@endif
+                                <div class="flex items-center pr-4">
 
-@endforeach
+                                    <button onclick="openProductModal({{ $product->id }})"
+                                            class="bg-gradient-to-r from-[#b8860b] to-[#d4a017] hover:from-[#d4a017] hover:to-[#e5a035] text-black font-bold w-10 h-10 rounded-full flex items-center justify-center text-xl transition-all duration-300 shadow-lg hover:shadow-xl shadow-[#b8860b]/30">
 
-</div>
+                                        +
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        @endforeach
+
+                    </div>
+
+                </div>
+
+            @endif
+
+        @endforeach
+
+    </div>
 
 </div>

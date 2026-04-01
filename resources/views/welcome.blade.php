@@ -17,8 +17,11 @@
     <meta property="og:type" content="website">
     
     <!-- Tailwind CSS y Fuentes -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<script src="https://cdn.tailwindcss.com"></script> -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Vite con archivos específicos para landing -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
         * {
