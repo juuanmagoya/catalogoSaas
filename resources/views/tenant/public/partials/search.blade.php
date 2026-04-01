@@ -27,30 +27,3 @@
 
 </div>
 
-<script>
-    // Funcionalidad para mostrar/ocultar botón de limpiar
-    const searchInput = document.getElementById('searchInput');
-    const clearButton = document.getElementById('clearSearch');
-    
-    if (searchInput && clearButton) {
-        searchInput.addEventListener('input', function() {
-            if (this.value.length > 0) {
-                clearButton.classList.remove('opacity-0', 'invisible');
-                clearButton.classList.add('opacity-100', 'visible');
-            } else {
-                clearButton.classList.remove('opacity-100', 'visible');
-                clearButton.classList.add('opacity-0', 'invisible');
-            }
-        });
-        
-        clearButton.addEventListener('click', function() {
-            searchInput.value = '';
-            searchInput.dispatchEvent(new Event('input'));
-            searchInput.focus();
-            // Aquí puedes llamar a tu función de búsqueda
-            if (typeof applyFilters === 'function') {
-                applyFilters();
-            }
-        });
-    }
-</script>

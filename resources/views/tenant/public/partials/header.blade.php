@@ -1,4 +1,4 @@
-<div  lass="relative w-full">
+<div class="relative w-full">
 
 <!-- HERO IMAGEN CON ESQUINAS REDONDEADAS -->
 <div class="mx-4 md:mx-6 mt-4 md:mt-6">
