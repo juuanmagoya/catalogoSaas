@@ -2,10 +2,11 @@
 
 @plugin "@tailwindcss/forms";
 
+/* rutas que Tailwind debe escanear */
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../../app/**/*.php";
+
 @theme {
     --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif;
 }
-
-/* Definir las rutas donde Tailwind buscará las clases */
-@source '../views/**/*.blade.php';
-@source '../js/**/*.js';
