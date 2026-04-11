@@ -140,7 +140,13 @@ Route::middleware(['tenant', 'auth', 'tenant.user'])
 
         Route::get('settings/qr/poster', [TenantSettingsController::class, 'downloadQrPoster'])
             ->name('settings.qr.poster');
-            
+
+        // QR Premium (NUEVAS RUTAS - CORREGIDAS)
+        Route::get('settings/qr-premium', [TenantSettingsController::class, 'generatePremiumQr'])
+            ->name('settings.qr.premium');
+
+        Route::get('settings/qr-premium/preview', [TenantSettingsController::class, 'previewPremiumQr'])
+            ->name('settings.qr.premium.preview');
             });
 
 

@@ -6,7 +6,7 @@
     
     <!-- SEO Optimizado -->
     <title>Menuvya · Catálogo Digital y Menú | Aumenta tus Ventas</title>
-    <meta name="description" content="Crea tu catálogo digital profesional en minutos. Menú QR para restaurantes, carta digital interactiva y panel de control. +500 negocios ya aumentaron sus ventas.">
+    <meta name="description" content="Crea tu catálogo digital profesional en minutos. Menú QR para restaurantes, carta digital interactiva y panel de control.">
     <meta name="keywords" content="menú digital, carta digital QR, catálogo digital para negocios, menú digital para restaurantes, catálogo online productos, carta digital restaurante, menú QR, catálogo interactivo">
     <meta name="author" content="Menuvya">
     <meta name="robots" content="index, follow">
@@ -257,12 +257,11 @@
                 <!-- Trust badge -->
                 <div class="inline-flex items-center gap-2 glass-effect px-4 py-2 rounded-full mb-8">
                     <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                    <span class="text-sm font-medium text-gray-300">+500 negocios ya usan Menuvya para mostrar su catálogo online</span>
                 </div>
                 
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                     Crea el catálogo digital de tu negocio
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">
+                    <span class="text-transparent bg-clip-text bg-linear-to-r from-yellow-300 to-pink-400">
                         en menos de 10 minutos
                     </span>
                 </h1>
@@ -314,19 +313,9 @@
                     <img 
                         src="{{ asset('storage/logomenuvya.png') }}"
                         alt="Logo menuvya"
-                        class="rounded-2xl drop-shadow-2xl w-[520px] md:w-[620px]"
+                        class="rounded-2xl drop-shadow-2xl w-130 md:w-155"
                     >
-                    
-                    <!-- Badge flotante -->
-                    <div class="absolute -bottom-6 -left-6 glass-effect rounded-2xl p-4 animate-float">
-                        <div class="flex items-center gap-3">
-                            <span class="text-3xl">📱</span>
-                            <div>
-                                <p class="font-bold text-sm">Escanea y pide</p>
-                                <p class="text-xs text-gray-400">Sin descargar apps</p>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -351,7 +340,7 @@
     <div class="container mx-auto px-4 max-w-7xl">
         <div class="text-center max-w-3xl mx-auto mb-16 reveal">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                ¿Por qué tener un <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">catálogo digital?</span>
+                ¿Por qué tener un <span class="text-transparent bg-clip-text bg-linear-to-r from-yellow-300 to-pink-400">catálogo digital?</span>
             </h2>
             <p class="text-gray-400 text-lg">
                 Digitaliza tu catálogo y permite que tus clientes
@@ -395,7 +384,7 @@
     <div class="container mx-auto px-4 max-w-7xl">
         <div class="text-center max-w-3xl mx-auto mb-16 reveal">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                Comienza en <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">3 pasos simples</span>
+                Comienza en <span class="text-transparent bg-clip-text bg-linear-to-r from-yellow-300 to-pink-400">3 pasos simples</span>
             </h2>
             <p class="text-gray-400 text-lg">
                 En menos de 10 minutos tienes tu catálogo digital funcionando.
@@ -441,7 +430,7 @@
             <div class="reveal">
                 <h2 class="text-3xl md:text-4xl font-bold mb-6">
                     Todo lo que necesitas en un 
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">panel simple</span>
+                    <span class="text-transparent bg-clip-text bg-linear-to-r from-yellow-300 to-pink-400">panel simple</span>
                 </h2>
                 <p class="text-gray-400 text-lg mb-8">
                     No necesitas ser experto en tecnología. Nuestro panel es intuitivo y fácil de usar.
@@ -477,7 +466,7 @@
             
             <!-- Imagen / Mockup -->
             <div class="relative reveal" style="transition-delay: 0.2s;">
-                <div class="absolute -inset-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl blur-2xl opacity-20"></div>
+                <div class="absolute -inset-4 bg-linear-to-r from-purple-500 to-pink-500 rounded-3xl blur-2xl opacity-20"></div>
                 <div class="relative glass-effect rounded-3xl p-2">
                     <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format" 
                          alt="Panel de control Menuvya" 
@@ -493,7 +482,7 @@
     <div class="container mx-auto px-4 max-w-7xl">
         <div class="text-center max-w-3xl mx-auto mb-16 reveal">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                Planes simples<span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">para tu negocio</span>
+                Planes simples<span class="text-transparent bg-clip-text bg-linear-to-r from-yellow-300 to-pink-400">para tu negocio</span>
             </h2>
             <p class="text-gray-400 text-lg">
                 Elige el plan que mejor se adapte a tu negocio. Sin contratos largos.
@@ -516,10 +505,7 @@
                         <span class="text-yellow-300">✓</span>
                         <span>Hasta 50 productos</span>
                     </li>
-                    <li class="flex items-center gap-3">
-                        <span class="text-yellow-300">✓</span>
-                        <span>Hasta 5 categorías</span>
-                    </li>
+
                     <li class="flex items-center gap-3">
                         <span class="text-yellow-300">✓</span>
                         <span>Catálogo online</span>
@@ -558,12 +544,7 @@
 
                     <li class="flex items-center gap-3">
                         <span class="text-yellow-300">✓</span>
-                        <span class="font-bold">Productos ilimitados</span>
-                    </li>
-
-                    <li class="flex items-center gap-3">
-                        <span class="text-yellow-300">✓</span>
-                        <span class="font-bold">Categorías ilimitadas</span>
+                        <span class="font-bold">Hasta 1000 productos</span>
                     </li>
 
                     <li class="flex items-center gap-3">
@@ -628,11 +609,6 @@
 
                     <li class="flex items-center gap-3">
                         <span class="text-purple-400">✓</span>
-                        <span>Categorías ilimitadas</span>
-                    </li>
-
-                    <li class="flex items-center gap-3">
-                        <span class="text-purple-400">✓</span>
                         <span class="font-bold">Pedidos por WhatsApp con carrito</span>
                     </li>
 
@@ -685,7 +661,7 @@
     <div class="container mx-auto px-4 max-w-4xl">
         <div class="text-center max-w-3xl mx-auto mb-16 reveal">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                Preguntas <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-400">frecuentes</span>
+                Preguntas <span class="text-transparent bg-clip-text bg-linear-to-r from-yellow-300 to-pink-400">frecuentes</span>
             </h2>
             <p class="text-gray-400 text-lg">
                 Resolvemos tus dudas para que empieces con confianza.
@@ -733,7 +709,7 @@
                     <span class="text-2xl ml-4">+</span>
                 </button>
                 <div class="faq-content hidden mt-4 text-gray-400">
-                    Si tu negocio crece y necesitas más productos, puedes actualizar al plan Pro que tiene productos ilimitados. La migración es inmediata y no pierdes ningún dato.
+                    Si tu negocio crece y necesitas más productos, puedes actualizar al plan Pro que tiene hasta mil productos. La migración es inmediata y no pierdes ningún dato.
                 </div>
             </div>
         </div>
@@ -749,9 +725,6 @@
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">
                     Crea tu catálogo digital hoy y empieza a vender más
                 </h2>
-                <p class="text-xl mb-8 text-indigo-100">
-                    Únete a +500 negocios que ya modernizaron su catálogo.
-                </p>
 
                 <p class="mt-6 text-indigo-200 text-sm">
                 ✨ Activación en minutos · Sin contratos · Cancela cuando quieras

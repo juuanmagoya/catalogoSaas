@@ -76,7 +76,7 @@
 
 <body class="bg-[#0a0a0a] text-gray-200">
 
-<div class="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a] to-[#050505]">
+<div class="min-h-screen bg-linear-to-b from-[#0a0a0a] via-[#0a0a0a] to-[#050505]">
 
     <!-- Eliminado el max-w-6xl y mx-auto para que ocupe todo el ancho -->
     <div class="w-full">
@@ -91,21 +91,21 @@
                             class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700">
                         
                         <!-- Overlay degradado elegante -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent rounded-2xl"></div>
+                        <div class="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent rounded-2xl"></div>
                         
                         <!-- Borde decorativo inferior -->
-                        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#b8860b] via-[#d4a017] to-[#b8860b] rounded-b-2xl"></div>
+                        <div class="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-[#b8860b] via-[#d4a017] to-[#b8860b] rounded-b-2xl"></div>
                         
                     </div>
                 </div>
 
                 <div class="px-4 md:px-6 -mt-8 relative z-10">
 
-                    <div class="bg-gradient-to-br from-[#1a1a1a] to-[#141414] rounded-2xl shadow-2xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border border-[#b8860b]/20 backdrop-blur-sm">
+                    <div class="bg-linear-to-br from-[#1a1a1a] to-[#141414] rounded-2xl shadow-2xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border border-[#b8860b]/20 backdrop-blur-sm">
 
                         <div class="flex-1">
 
-                            <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                            <h1 class="text-2xl md:text-3xl font-bold bg-linear-to-r from-white to-gray-300 bg-clip-text text-transparent">
                                 {{ $tenant->name }}
                             </h1>
 
@@ -124,7 +124,7 @@
                         </div>
 
                         <button onclick="openInfoModal()" 
-                            class="bg-gradient-to-r from-[#b8860b] to-[#d4a017] hover:from-[#d4a017] hover:to-[#e5a035] text-black font-semibold px-6 py-2.5 rounded-full text-sm transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 border border-white/10">
+                            class="bg-linear-to-r from-[#b8860b] to-[#d4a017] hover:from-[#d4a017] hover:to-[#e5a035] text-black font-semibold px-6 py-2.5 rounded-full text-sm transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 border border-white/10">
 
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -314,7 +314,7 @@
 
                                 <!-- BOTÓN AGREGAR AL CARRITO -->
                                 <button onclick="addToCart()"
-                                        class="flex-1 bg-gradient-to-r from-orange-500 to-rose-600 text-white py-3 rounded-xl font-semibold hover:scale-[1.02] transition">
+                                        class="flex-1 bg-linear-to-r from-orange-500 to-rose-600 text-white py-3 rounded-xl font-semibold hover:scale-[1.02] transition">
 
                                     Agregar al carrito
 
@@ -517,7 +517,7 @@
                                             <!-- IMAGEN DEL PRODUCTO                               -->
                                             <!-- ================================================= -->
 
-                                            <div class="w-28 flex-shrink-0 cursor-pointer relative overflow-hidden"
+                                            <div class="w-28 shrink-0 cursor-pointer relative overflow-hidden"
                                                 onclick="openProductModal({{ $product->id }})">
 
                                                 <img
@@ -525,7 +525,7 @@
                                                     class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
 
                                                 <!-- Overlay decorativo -->
-                                                <div class="absolute inset-0 bg-gradient-to-r from-[#b8860b]/0 via-[#b8860b]/0 to-[#b8860b]/10"></div>
+                                                <div class="absolute inset-0 bg-linear-to-r from-[#b8860b]/0 via-[#b8860b]/0 to-[#b8860b]/10"></div>
 
                                             </div>
 
@@ -562,7 +562,7 @@
                                             <div class="flex items-center pr-4">
 
                                                 <button onclick="openProductModal({{ $product->id }})"
-                                                        class="bg-gradient-to-r from-[#b8860b] to-[#d4a017] hover:from-[#d4a017] hover:to-[#e5a035] text-black font-bold w-10 h-10 rounded-full flex items-center justify-center text-xl transition-all duration-300 shadow-lg hover:shadow-xl shadow-[#b8860b]/30">
+                                                        class="bg-linear-to-r from-[#b8860b] to-[#d4a017] hover:from-[#d4a017] hover:to-[#e5a035] text-black font-bold w-10 h-10 rounded-full flex items-center justify-center text-xl transition-all duration-300 shadow-lg hover:shadow-xl shadow-[#b8860b]/30">
 
                                                     +
 
@@ -600,7 +600,7 @@
                 <!-- ================================================= -->
 
                 <div onclick="openCart()"
-                    class="fixed bottom-6 right-6 bg-gradient-to-r from-orange-600 to-rose-700 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl cursor-pointer z-50 hover:scale-105 transition">
+                    class="fixed bottom-6 right-6 bg-linear-to-r from-orange-600 to-rose-700 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl cursor-pointer z-50 hover:scale-105 transition">
 
                     🛒
 
