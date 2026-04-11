@@ -32,7 +32,7 @@
             
             <!-- Logo -->
             <div class="mb-6 inline-flex">
-                <div class="w-24 h-24 rounded-2xl bg-linear-to-br from-amber-100 to-orange-100 flex items-center justify-center shadow-md">
+                <div class="w-24 h-24 rounded-2xl bg-amber-100 flex items-center justify-center shadow-md">
                     <span class="text-5xl">🍜</span>
                 </div>
             </div>
@@ -48,7 +48,7 @@
             </p>
             
             <!-- Línea decorativa -->
-            <div class="w-12 h-0.5 bg-linear-to-r from-amber-400 to-orange-400 mx-auto mt-4 rounded-full"></div>
+            <div class="w-12 h-0.5 bg-orange-400 mx-auto mt-4 rounded-full"></div>
         </div>
         
         <!-- Cuerpo del formulario -->
@@ -137,7 +137,7 @@
                 <!-- Botón de acción -->
                 <button 
                     type="submit" 
-                    class="w-full mt-6 py-3 rounded-xl bg-linear-to-r from-amber-700 to-orange-600 text-white font-semibold text-base shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+                    class="w-full mt-6 py-3 rounded-xl bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:ring-orange-200 text-white font-semibold text-base shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
                 >
                     Iniciar sesión
                 </button>
