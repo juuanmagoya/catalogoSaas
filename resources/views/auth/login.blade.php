@@ -6,121 +6,113 @@
     <title>Iniciar Sesión · {{ config('app.name', 'Restobar') }}</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-dvh flex items-center justify-center p-4 relative overflow-hidden antialiased" style="background: linear-gradient(135deg, #fef9f4 0%, #fff5ed 100%);">
+<body class="min-h-dvh flex items-center justify-center p-4 bg-neutral-50 antialiased">
     
-    <!-- Elementos decorativos de fondo -->
-    <div class="fixed pointer-events-none select-none text-[clamp(200px,30vw,400px)] opacity-[0.03] -bottom-20 -right-20 rotate-12">🍽️</div>
-    <div class="fixed pointer-events-none select-none text-[clamp(150px,25vw,300px)] opacity-[0.03] -top-20 -left-20 -rotate-12">🍷</div>
-    <div class="fixed pointer-events-none select-none text-[clamp(100px,20vw,200px)] opacity-[0.02] bottom-1/3 left-1/4">🍜</div>
-    
-    <!-- Onda decorativa inferior -->
-    <div class="fixed bottom-0 left-0 w-full pointer-events-none">
-        <svg class="w-full h-auto text-amber-100/20" viewBox="0 0 1200 120" preserveAspectRatio="none" fill="currentColor">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"/>
-        </svg>
-    </div>
-    
-    <!-- Tarjeta principal -->
-    <div class="relative z-10 w-full max-w-md lg:max-w-lg animate-fade-in-up">
+    <!-- Contenedor principal -->
+    <div class="w-full max-w-md animate-fade-in-up">
         
-        <!-- Header -->
-        <div class="bg-white/95 backdrop-blur-sm rounded-t-3xl pt-10 pb-6 px-6 text-center shadow-sm">
-            
-            <!-- Logo -->
-            <div class="mb-6 inline-flex">
-                <div class="w-24 h-24 rounded-2xl bg-amber-100 flex items-center justify-center shadow-md">
-                    <span class="text-5xl">🍜</span>
+        <!-- Logo y marca -->
+        <div class="text-center mb-10">
+            <div class="inline-flex mb-6">
+                <div class="w-16 h-16 rounded-xl bg-amber-100 flex items-center justify-center shadow-lg shadow-amber-100/50">
+                    <span class="text-3xl">🍽️</span>
                 </div>
             </div>
             
-            <!-- Título del restaurante -->
-            <h1 class="font-display text-3xl lg:text-4xl font-bold text-stone-800 mb-2 tracking-tight">
+            <h1 class="font-display text-4xl font-medium text-neutral-800 mb-2 tracking-tight">
                 {{ config('app.name', 'Restobar') }}
             </h1>
             
-            <!-- Lema -->
-            <p class="text-amber-600 text-sm font-medium">
-                Sabores que invitan a volver
+            <p class="text-amber-600 text-sm font-medium tracking-wide">
+                Cocina de autor
             </p>
-            
-            <!-- Línea decorativa -->
-            <div class="w-12 h-0.5 bg-orange-400 mx-auto mt-4 rounded-full"></div>
         </div>
         
-        <!-- Cuerpo del formulario -->
-        <div class="bg-white rounded-b-3xl px-6 pb-8 shadow-xl">
+        <!-- Tarjeta del formulario -->
+        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-neutral-200/50">
             
             <!-- Mensajes de sesión -->
             @if(session('status'))
-                <div class="mb-5 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm text-center">
-                    {{ session('status') }}
+                <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-sm text-emerald-800">{{ session('status') }}</span>
+                    </div>
                 </div>
             @endif
             
             <!-- Errores de validación -->
             @if($errors->any())
-                <div class="mb-5 p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
+                <div class="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-100">
                     @foreach($errors->all() as $error)
-                        <div class="flex items-center gap-2">
-                            <span>⚠️</span>
-                            <span>{{ $error }}</span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-rose-500">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <span class="text-sm text-rose-800">{{ $error }}</span>
                         </div>
                     @endforeach
                 </div>
             @endif
+            
+            <!-- Título del formulario -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-neutral-800 mb-1">Bienvenido</h2>
+                <p class="text-sm text-neutral-500">Ingresa tus credenciales para continuar</p>
+            </div>
             
             <form method="POST" action="{{ route('login') }}" class="space-y-5">
                 @csrf
                 
                 <!-- Campo Email -->
                 <div>
-                    <label for="email" class="block text-sm font-semibold text-stone-700 mb-1.5">
+                    <label for="email" class="block text-sm font-medium text-neutral-700 mb-2">
                         Correo electrónico
                     </label>
-                    <div class="relative group">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-amber-500 transition-colors">
-                            📧
-                        </span>
-                        <input 
-                            id="email" 
-                            type="email" 
-                            name="email" 
-                            value="{{ old('email') }}" 
-                            required 
-                            autofocus
-                            autocomplete="email"
-                            class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-stone-50 border-2 border-stone-200 focus:border-amber-400 focus:ring-4 focus:ring-amber-100 focus:outline-none transition-all placeholder:text-stone-400"
-                            placeholder="chef@restobar.com"
-                        >
-                    </div>
+                    <input 
+                        id="email" 
+                        type="email" 
+                        name="email" 
+                        value="{{ old('email') }}" 
+                        required 
+                        autofocus
+                        autocomplete="email"
+                        class="w-full px-4 py-3 rounded-xl bg-neutral-50 border-0 ring-1 ring-neutral-200 focus:ring-2 focus:ring-amber-400 outline-none transition-all placeholder:text-neutral-400 text-neutral-800"
+                        placeholder="tu@restobar.com"
+                    >
                 </div>
                 
-                <!-- Campo Contraseña CON OJITO TOGGLE -->
+                <!-- Campo Contraseña -->
                 <div>
-                    <label for="password" class="block text-sm font-semibold text-stone-700 mb-1.5">
-                        Contraseña
-                    </label>
-                    <div class="relative group">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-amber-500 transition-colors z-10">
-                            🔒
-                        </span>
+                    <div class="flex justify-between items-center mb-2">
+                        <label for="password" class="block text-sm font-medium text-neutral-700">
+                            Contraseña
+                        </label>
+                    </div>
+                    <div class="relative">
                         <input 
                             id="password" 
                             type="password" 
                             name="password" 
                             required 
                             autocomplete="current-password"
-                            class="w-full pl-9 pr-12 py-2.5 rounded-xl bg-stone-50 border-2 border-stone-200 focus:border-amber-400 focus:ring-4 focus:ring-amber-100 focus:outline-none transition-all placeholder:text-stone-400"
+                            class="w-full px-4 py-3 pr-12 rounded-xl bg-neutral-50 border-0 ring-1 ring-neutral-200 focus:ring-2 focus:ring-amber-400 outline-none transition-all placeholder:text-neutral-400 text-neutral-800"
                             placeholder="••••••••"
                         >
                         <button 
                             type="button"
                             id="togglePassword"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-amber-600 transition-colors focus:outline-none"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg text-neutral-400 hover:text-amber-600 hover:bg-amber-50 transition-all cursor-pointer"
                             aria-label="Mostrar u ocultar contraseña"
                         >
                             <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,60 +121,51 @@
                             </svg>
                         </button>
                     </div>
-                    <p class="text-xs text-stone-400 mt-1.5">
-                        👁️ Haz clic en el ojito para ver tu contraseña
-                    </p>
                 </div>
                 
                 <!-- Botón de acción -->
                 <button 
                     type="submit" 
-                    class="w-full mt-6 py-3 rounded-xl bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:ring-orange-200 text-white font-semibold text-base shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+                    class="w-full mt-2 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-600 focus:ring-4 focus:ring-amber-200 text-white font-medium shadow-lg shadow-amber-200/50 hover:shadow-xl hover:shadow-amber-300/50 transition-all duration-200 cursor-pointer"
                 >
                     Iniciar sesión
                 </button>
-                
-                <!-- Separador decorativo -->
-                <div class="relative my-6">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-stone-200"></div>
-                    </div>
-                    <div class="relative flex justify-center text-xs">
-                        <span class="px-3 bg-white text-stone-400">✦</span>
-                    </div>
-                </div>
-                
-                <!-- Información de roles -->
-                <div class="text-center space-y-2">
-                    <p class="text-xs text-stone-400">
-                        Acceso exclusivo para el equipo
-                    </p>
-                    <div class="flex flex-wrap justify-center gap-x-3 gap-y-1 text-stone-400 text-xs">
-                        <span class="inline-flex items-center gap-1">🍳 Chef</span>
-                        <span class="inline-flex items-center gap-1">🍷 Sommelier</span>
-                        <span class="inline-flex items-center gap-1">👨‍🍳 Cocinero</span>
-                        <span class="inline-flex items-center gap-1">🛎️ Mesero</span>
-                        <span class="inline-flex items-center gap-1">📊 Gerencia</span>
-                    </div>
-                </div>
             </form>
+            
+            <!-- Separador decorativo -->
+            <div class="relative my-8">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-neutral-100"></div>
+                </div>
+                <div class="relative flex justify-center">
+                    <span class="px-4 bg-white text-neutral-300 text-xs tracking-wider">✦</span>
+                </div>
+            </div>
+            
+            <!-- Mensaje de acceso -->
+            <div class="text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-100">
+                    <span class="text-amber-500 text-sm">🔒</span>
+                    <span class="text-xs font-medium text-amber-700">Acceso exclusivo para personal autorizado</span>
+                </div>
+            </div>
         </div>
         
         <!-- Footer -->
-        <div class="bg-amber-50/80 backdrop-blur-sm rounded-b-3xl py-3 px-6 text-center border-t border-amber-100">
-            <p class="text-xs text-stone-500">
-                🍷 Sistema de gestión gastronómica
+        <div class="mt-8 text-center">
+            <p class="text-xs text-neutral-400">
+                © {{ date('Y') }} {{ config('app.name', 'Restobar') }} · Gestión gastronómica
             </p>
         </div>
     </div>
 </body>
 
-<!-- Estilos y JavaScript para el toggle de contraseña -->
+<!-- Estilos y JavaScript -->
 <style>
     @keyframes fade-in-up {
         from {
             opacity: 0;
-            transform: translateY(24px);
+            transform: translateY(16px);
         }
         to {
             opacity: 1;

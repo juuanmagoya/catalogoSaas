@@ -6,20 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Domains\Catalog\Category\Models\Category;
 use App\Support\TenantContext;
 use App\Domains\Tenant\Models\Tenant;
-use App\Domains\Analytics\Services\AnalyticsService;
 use Illuminate\Http\Request;
 
 class PublicMenuController extends Controller
 {
-    protected AnalyticsService $analytics;
-
-    public function __construct(AnalyticsService $analytics)
-    {
-        $this->analytics = $analytics;
-    }
-
     /**
-     * Menú público del tenant
+     * Menú público del tenant (por subdominio)
      */
     public function index(Request $request, $subdomain)
     {
@@ -29,19 +21,7 @@ class PublicMenuController extends Controller
             abort(404);
         }
 
-        // Registrar visita al menú
-        $this->analytics->menuView(
-            source: $request->query('source'),
-            request: $request
-        );
-
-        $categories = Category::where('tenant_id', $tenant->id)
-            ->with(['products' => function ($query) {
-                $query->where('is_available', true);
-            }])
-            ->whereHas('products')
-            ->orderBy('name')
-            ->get();
+        $categories = $this->getCategoriesWithProducts($tenant->id);
 
         return view('tenant.public.menu', [
             'categories' => $categories,
@@ -56,23 +36,25 @@ class PublicMenuController extends Controller
     {
         $tenant = Tenant::where('slug', $slug)->firstOrFail();
 
-        // Registrar visita al menú
-        $this->analytics->menuView(
-            source: $request->query('source'),
-            request: $request
-        );
+        $categories = $this->getCategoriesWithProducts($tenant->id);
 
-        $categories = Category::where('tenant_id', $tenant->id)
+        return view('menu', [
+            'tenant' => $tenant,
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * Obtener categorías con productos disponibles
+     */
+    private function getCategoriesWithProducts(int $tenantId)
+    {
+        return Category::where('tenant_id', $tenantId)
             ->with(['products' => function ($query) {
                 $query->where('is_available', true);
             }])
             ->whereHas('products')
             ->orderBy('name')
             ->get();
-
-        return view('menu', [
-            'tenant' => $tenant,
-            'categories' => $categories
-        ]);
     }
 }
