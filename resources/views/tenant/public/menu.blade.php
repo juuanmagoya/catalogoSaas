@@ -207,49 +207,66 @@
 
                         <!-- REDES SOCIALES -->
 
-                        <div class="flex justify-center gap-6 pt-2">
+                       <div class="flex justify-center gap-6 pt-2">
 
                             @if($tenant->instagram)
-
                                 <a href="{{ $tenant->instagram }}"
                                 target="_blank"
                                 class="bg-gray-800 p-3 rounded-xl hover:bg-gray-700 transition">
-
                                     <!-- Instagram SVG -->
-
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         class="w-6 h-6 text-pink-500"
                                         fill="currentColor"
                                         viewBox="0 0 24 24">
-
                                         <path d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5A3.75 3.75 0 0 1 20 7.75v8.5A3.75 3.75 0 0 1 16.25 20h-8.5A3.75 3.75 0 0 1 4 16.25v-8.5A3.75 3.75 0 0 1 7.75 4zm9.25 1.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
-
                                     </svg>
-
                                 </a>
-
                             @endif
 
-
                             @if($tenant->facebook)
-
                                 <a href="{{ $tenant->facebook }}"
                                 target="_blank"
                                 class="bg-gray-800 p-3 rounded-xl hover:bg-gray-700 transition">
-
                                     <!-- Facebook SVG -->
-
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         class="w-6 h-6 text-blue-500"
                                         fill="currentColor"
                                         viewBox="0 0 24 24">
-
                                         <path d="M22 12a10 10 0 1 0-11.56 9.87v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.24.19 2.24.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.88h-2.34v6.99A10 10 0 0 0 22 12z"/>
-
                                     </svg>
-
                                 </a>
+                            @endif
 
+                            @if($tenant->whatsapp_number)
+                                @php
+                                    // Limpiar el número: eliminar espacios, +, -, paréntesis y cualquier cosa que no sea número
+                                    $whatsappNumber = preg_replace('/[^0-9]/', '', $tenant->whatsapp_number);
+                                    
+                                    // Construir URL base
+                                    $whatsappUrl = 'https://wa.me/' . $whatsappNumber;
+                                    
+                                    // Si hay mensaje personalizado en la BD, usarlo; si no, mensaje por defecto
+                                    if (!empty($tenant->whatsapp_message)) {
+                                        $whatsappUrl .= '?text=' . urlencode($tenant->whatsapp_message);
+                                    } else {
+                                        // Mensaje por defecto (opcional)
+                                        $mensajeDefecto = "Hola! Vengo del catálogo digital de " . $tenant->name . ". Me gustaría hacer una consulta.";
+                                        $whatsappUrl .= '?text=' . urlencode($mensajeDefecto);
+                                    }
+                                @endphp
+                                
+                                <a href="{{ $whatsappUrl }}"
+                                target="_blank"
+                                class="bg-gray-800 p-3 rounded-xl hover:bg-gray-700 transition">
+                                    <!-- WhatsApp SVG -->
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-6 h-6 text-green-500"
+                                        fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2.05 22l5.32-1.4c1.45.79 3.08 1.21 4.77 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.9-9.91-9.9zM12.04 20.15c-1.49 0-2.95-.4-4.22-1.15l-.3-.18-3.16.83.84-3.08-.2-.31a8.245 8.245 0 0 1-1.26-4.4c0-4.56 3.71-8.27 8.27-8.27s8.27 3.71 8.27 8.27-3.71 8.27-8.27 8.27z"/>
+                                        <path d="M17.34 14.38c-.29-.15-1.72-.85-1.99-.95-.27-.1-.46-.15-.66.15-.2.3-.76.95-.93 1.14-.17.2-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.34.44-.51.15-.17.2-.29.3-.49.1-.2.05-.37-.02-.52-.07-.15-.66-1.59-.91-2.18-.24-.58-.48-.5-.66-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.19 5.06 4.47.71.31 1.26.49 1.69.63.71.23 1.35.19 1.86.12.57-.09 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.2-.55-.35z"/>
+                                    </svg>
+                                </a>
                             @endif
 
                         </div>
