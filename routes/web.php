@@ -8,6 +8,7 @@ use App\Http\Controllers\Tenant\PublicMenuController;
 use App\Http\Controllers\Tenant\TenantSettingsController;
 use App\Http\Controllers\Admin\AdminTenantController;
 use App\Http\Controllers\Admin\AdminPlanController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\CartController;
@@ -61,6 +62,14 @@ Route::middleware(['auth', 'admin.global'])
         */
 
         Route::resource('plans', AdminPlanController::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Users
+        |--------------------------------------------------------------------------
+        */
+        Route::resource('users', AdminUserController::class);
+
     });
 
 
