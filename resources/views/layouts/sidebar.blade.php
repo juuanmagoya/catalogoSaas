@@ -65,6 +65,11 @@
                     Planes
                 </a>
 
+                <a href="{{ route('admin.users.index') }}"
+                class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-amber-800 transition">
+                    Usuarios
+                </a>
+
             </nav>
         </div>
         @endif
